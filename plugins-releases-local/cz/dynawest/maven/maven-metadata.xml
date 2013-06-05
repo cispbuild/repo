@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <plugins>
+    <plugin>
+      <name>Maven Jabber (XMPP) Plugin</name>
+      <prefix>jabber</prefix>
+      <artifactId>maven-jabber-plugin</artifactId>
+    </plugin>
+    <plugin>
+      <name>Unzip Maven Plugin</name>
+      <prefix>unzip</prefix>
+      <artifactId>maven-unzip-plugin</artifactId>
+    </plugin>
+  </plugins>
+</metadata>

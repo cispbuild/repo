@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+
+  <groupId>cz.dynawest.maven</groupId>
+  <artifactId>maven-unzip-plugin</artifactId>
+  <packaging>maven-plugin</packaging>
+  <version>1.0</version>
+
+  <name>Unzip Maven Plugin</name>
+  <url></url>
+
+  <build>
+    <plugins>
+
+			<!-- Test the plugin on it's own project :) -->
+      <plugin>
+        <groupId>cz.dynawest.maven</groupId>
+        <artifactId>maven-unzip-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution><phase>initialize</phase><goals><goal>unzip</goal></goals></execution>
+        </executions>
+				<configuration>
+					<srcArchive>${project.build.directory}/${project.build.finalName}.jar</srcArchive>
+					<destDir>${project.build.directory}/unzip-test</destDir>
+					<failIfNotFound>false</failIfNotFound>
+				</configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+
+  <dependencies>
+		
+		<!-- Plugin API -->
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-plugin-api</artifactId>
+			<version>2.0.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+    
+  </dependencies>
+</project>

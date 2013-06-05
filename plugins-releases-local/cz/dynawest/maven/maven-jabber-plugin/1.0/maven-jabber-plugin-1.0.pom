@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+
+  <groupId>cz.dynawest.maven</groupId>
+  <artifactId>maven-jabber-plugin</artifactId>
+  <packaging>maven-plugin</packaging>
+  <version>1.0</version>
+
+  <name>Maven Jabber (XMPP) Plugin</name>
+  <url></url>
+
+ <build>
+    <plugins>
+
+			<!-- Test the plugin on it's own project :) -->
+      <plugin>
+        <groupId>cz.dynawest.maven</groupId>
+        <artifactId>maven-jabber-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution><phase>initialize</phase><goals><goal>sendmessage</goal></goals></execution>
+        </executions>
+				<configuration>
+					<!-- Format: user@server/password -->
+					<loginData>pohlidame.cz@jabber.cz/${jabber-ondra.zizka-jabber.cz-pass}</loginData>
+					<receiver>ondra.zizka@jabber.cz</receiver>
+					<!--<message>Project was built.</message>-->
+					<runInThread>false</runInThread>
+				</configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+
+  <dependencies>
+		
+		<!-- Smack - XMPP -->
+    <dependency>
+      <groupId>org.jivesoftware</groupId>
+      <artifactId>smack</artifactId>
+      <version>3.1.0-SNAPSHOT</version>
+    </dependency>
+
+		<!-- Plugin API -->
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-plugin-api</artifactId>
+			<version>2.0.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+    
+  </dependencies>
+</project>

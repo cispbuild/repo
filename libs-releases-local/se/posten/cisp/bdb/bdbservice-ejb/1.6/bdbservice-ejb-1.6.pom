@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>se.posten.cisp.bdb</groupId>
+        <artifactId>bdb-aggregator</artifactId>
+        <version>1.6</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>bdbservice-ejb</artifactId>
+
+    <name>CISP BDB Service : ${project.artifactId}</name>
+
+    <packaging>ejb</packaging>
+
+    <reporting>
+        <outputDirectory>
+            ${basedir}/../target/site/${project.artifactId}
+        </outputDirectory>
+    </reporting>
+
+    <profiles>
+        <profile>
+            <id>generate-client</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <!--
+                <file>
+                    Due to a bug in Maven (MNG-3017), this doesn't work. To prevent building of the client, build with
+                    "mvn -P!generate-client".
+                    <missing>${basedir}/src/main/java-generated/se</missing>
+                </file>
+                -->
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                       <!-- <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>xmlbeans-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>xmlbeans</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <inherited>true</inherited>
+                        <configuration>
+                            <schemaDirectory>src/main/resources/xsd</schemaDirectory>
+                            <sourceGenerationDirectory>src/main/java-generated</sourceGenerationDirectory>
+                        </configuration> -->
+                       <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>xmlbeans-maven-plugin</artifactId>
+                        <version>2.3.2</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>xmlbeans</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <inherited>true</inherited>
+                        <configuration>
+                            <schemaDirectory>src/main/resources/xsd_kmr2</schemaDirectory>
+                            <sourceGenerationDirectory>src/main/java-generated</sourceGenerationDirectory>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <build>
+    	 <resources>
+    	  	<resource>
+                <filtering>true</filtering>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+            <resource>
+                <filtering>true</filtering>
+                <directory>${basedir}/src/main/config</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+    	  </resources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <configuration>
+                    <ejbVersion>3.0</ejbVersion>
+                    <generateClient>true</generateClient>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive>
+                    <clientIncludes>
+                        <clientInclude>se/posten/service/bdbservice/business/BDBServiceInterface*.*</clientInclude>
+                        <clientInclude>se/posten/service/bdbservice/business/BDBService*I*.*</clientInclude>
+                        <clientInclude>se/posten/service/bdbservice/business/BDBDAOService*I*.*</clientInclude>
+                        <clientInclude>se/posten/service/bdbservice/business/BDBImportService*I*.*</clientInclude>
+                        <clientInclude>se/posten/service/bdbservice/api/*.*</clientInclude>
+                    </clientIncludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.2</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/java-generated</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+    		<groupId>commons-net</groupId>
+    		<artifactId>commons-net</artifactId>
+    		<version>2.0</version>
+		</dependency>
+        <dependency>
+            <groupId>org.apache.xmlbeans</groupId>
+            <artifactId>xmlbeans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.log</groupId>
+            <artifactId>logservice-ejb</artifactId>
+            <version>${version.se.posten.cisp.log}</version>
+            <type>ejb-client</type>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.configuration</groupId>
+            <artifactId>configurationservice-ejb</artifactId>
+            <version>${version.se.posten.cisp.configuration}</version>
+            <type>ejb-client</type>
+        </dependency>        
+                                        
+        <dependency>
+            <groupId>se.posten.cisp.utilities</groupId>
+            <artifactId>utils</artifactId>
+            <version>${version.se.posten.cisp.utilities}</version>
+        </dependency>
+        
+        <!-- Includes kmr2communicator ejb-client and kmr2-soapclient -->
+        <dependency>
+            <groupId>se.posten.cisp.kmr2adapter</groupId>
+            <artifactId>kmr2-soapclient</artifactId>
+            <version>${version.se.posten.cisp.kmr2adapter}</version>
+        </dependency>        
+
+        <dependency>
+            <groupId>se.posten.cisp.kmr2adapter</groupId>
+            <artifactId>kmr2communicator-ejb</artifactId>
+            <version>${version.se.posten.cisp.kmr2adapter}</version>
+            <type>ejb-client</type>
+        </dependency>
+                                                                                     
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+</project>

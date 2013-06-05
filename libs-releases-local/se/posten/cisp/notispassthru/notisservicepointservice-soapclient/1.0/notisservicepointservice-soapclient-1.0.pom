@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    
+	<modelVersion>4.0.0</modelVersion>
+	
+    <parent>
+        <groupId>se.posten.cisp.notispassthru</groupId>
+        <artifactId>notispassthruservice-aggregator</artifactId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+	
+    <artifactId>notisservicepointservice-soapclient</artifactId>
+    <packaging>jar</packaging>
+	
+    <version>${project.parent.version}</version>
+    <name>notisservicepointservice-soapclient</name>
+	
+    <reporting>
+        <outputDirectory>
+            ${basedir}/../target/site/${project.artifactId}
+        </outputDirectory>
+		
+    </reporting>
+	
+	<build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>gen-wsclient</id>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                        <configuration>
+                            <!--keep>true</keep-->
+                            <wsdlDirectory>${basedir}/src/main/config</wsdlDirectory>
+							<wsdlLocation>http://not_an_address.utv1.idp.posten.se:8080/ServicePointService/WebDelegateEndPoint?wsdl</wsdlLocation>
+							<wsdlFiles>
+								<wsdlFile>ServicePointServiceWebDelegateEndPoint.wsdl</wsdlFile>
+							</wsdlFiles>
+                            <target>2.0</target>
+                        </configuration>
+                    </execution>
+					</executions>
+                 </plugin>
+			
+			</plugins>
+		</build>
+
+</project>

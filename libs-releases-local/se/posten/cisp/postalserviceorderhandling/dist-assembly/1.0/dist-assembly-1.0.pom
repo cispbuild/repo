@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>se.posten.cisp.postalserviceorderhandling</groupId>
+        <artifactId>postalserviceorderhandling-aggregator</artifactId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>dist-assembly</artifactId>
+
+    <name>CISP postalserviceorderhandling : ${project.artifactId}</name>
+
+    <packaging>pom</packaging>
+
+    <profiles>
+
+        <profile>
+            <id>dev</id>
+            <properties>
+                <destination.clustered>false</destination.clustered>
+                <target.environment>dev</target.environment>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>test</id>
+            <properties>
+                <destination.clustered>false</destination.clustered>
+                <target.environment>test</target.environment>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>systest</id>
+            <properties>
+                <destination.clustered>false</destination.clustered>
+                <target.environment>systest</target.environment>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>loadtest</id>
+            <properties>
+                <destination.clustered>true</destination.clustered>
+                <target.environment>loadtest</target.environment>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>stage</id>
+            <properties>
+                <destination.clustered>true</destination.clustered>
+                <target.environment>stage</target.environment>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>prod</id>
+            <properties>
+                <destination.clustered>true</destination.clustered>
+                <target.environment>prod</target.environment>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>with-deps</id>
+            <!-- If third-party dependencies exist (such as SMS/Mail, etc., add them here -->
+		 <dependencies>
+		<dependency>
+                    <groupId>se.posten.cisp.configuration</groupId>
+                    <artifactId>configurationservice-ear</artifactId>
+                    <version>${version.se.posten.cisp.configuration}</version>
+                    <type>ear</type>
+                </dependency>
+		<dependency>
+			<groupId>se.posten.cisp.bdb</groupId>
+			<artifactId>bdbservice-ear</artifactId>
+			<version>${version.se.posten.cisp.bdb}</version>
+			<type>ear</type>
+		</dependency>
+		<dependency>
+				<groupId>se.posten.cisp.log</groupId>
+				<artifactId>logservice-ear</artifactId>
+				<version>${version.se.posten.cisp.log}</version>
+				<type>ear</type>
+		</dependency>
+		<dependency>
+                 <groupId>se.posten.cisp.mail</groupId>
+                 <artifactId>mailservice-ear</artifactId>
+                 <version>${version.se.posten.cisp.mail}</version>
+                 <type>ear</type>
+          </dependency>
+	
+		 </dependencies>
+        </profile>
+
+        <profile>
+            <id>with-deps-config</id>
+            <!-- If third-party dependencies exist (such as SMS/Mail, etc., add their serverconf-modules
+             here. -->
+			  <dependencies>
+		<dependency>
+                    <groupId>se.posten.cisp.configuration</groupId>
+                    <artifactId>serverconf</artifactId>
+                    <version>${version.se.posten.cisp.configuration}</version>
+                    <classifier>${target.environment}</classifier>
+                </dependency>
+                <dependency>
+                    <groupId>se.posten.cisp.bdb</groupId>
+                    <artifactId>serverconf</artifactId>
+                    <version>${version.se.posten.cisp.bdb}</version>
+                    <classifier>${target.environment}</classifier>
+                </dependency> 
+				
+				 </dependencies>
+        </profile>
+
+        <profile>
+            <id>with-config</id>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>serverconf</artifactId>
+                    <version>${project.version}</version>
+                    <classifier>${target.environment}</classifier>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>for-cluster</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assembly/for-cluster.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>make-assembly</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>for-standalone</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assembly/for-standalone.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>make-assembly</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- This profile is to conveniently deploy the distribution to the developer's local JBoss installation. -->
+        <profile>
+            <id>install-local</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <unzip
+                                                src="target/${project.build.finalName}-package.zip"
+                                                dest="${env.JBOSS_HOME}/server/${env.JBOSS_CONF}"/>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>postalserviceorderhandling-ear</artifactId>
+            <type>ear</type>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

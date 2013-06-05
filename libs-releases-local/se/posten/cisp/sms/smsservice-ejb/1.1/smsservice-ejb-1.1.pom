@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>se.posten.cisp.sms</groupId>
+        <artifactId>sms-aggregator</artifactId>
+        <version>1.1</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>smsservice-ejb</artifactId>
+
+    <name>CISP SMS Service : ${project.groupId}</name>
+
+    <packaging>ejb</packaging>
+
+    <reporting>
+        <outputDirectory>
+            ${basedir}/../target/site/${project.artifactId}
+        </outputDirectory>
+    </reporting>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <configuration>
+                    <ejbVersion>3.0</ejbVersion>
+                    <generateClient>true</generateClient>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive>
+                    <clientIncludes>
+                        <clientInclude>se/posten/service/sms/api/**</clientInclude>
+                        <clientInclude>se/posten/service/sms/business/SmsService*I*.*</clientInclude>
+                    </clientIncludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>xmlbeans-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>xmlbeans</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <inherited>true</inherited>
+                <configuration>
+                    <schemaDirectory>src/main/resources/xsd</schemaDirectory>
+                    <sourceGenerationDirectory>src/main/java-generated</sourceGenerationDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/java-generated</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.xmlbeans</groupId>
+            <artifactId>xmlbeans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.configuration</groupId>
+            <artifactId>configurationservice-ejb</artifactId>
+            <version>${version.se.posten.cisp.configuration}</version>
+            <type>ejb-client</type>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.utilities</groupId>
+            <artifactId>utils</artifactId>
+            <version>${version.se.posten.cisp.utilities}</version>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.bdb</groupId>
+            <artifactId>securityutils</artifactId>
+            <version>${version.se.posten.cisp.bdb}</version>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.utilities</groupId>
+            <artifactId>interceptorutils</artifactId>
+            <version>${version.se.posten.cisp.utilities}</version>
+        </dependency>
+    </dependencies>
+</project>

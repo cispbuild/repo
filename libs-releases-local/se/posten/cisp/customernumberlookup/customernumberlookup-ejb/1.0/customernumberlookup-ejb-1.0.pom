@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>se.posten.cisp.customernumberlookup</groupId>
+        <artifactId>customernumberlookup-aggregator</artifactId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>customernumberlookup-ejb</artifactId>
+
+    <name>CISP customernumberlookup : ${project.artifactId}</name>
+
+    <packaging>ejb</packaging>
+
+    <reporting>
+        <outputDirectory>${basedir}/../target/site/${project.artifactId}</outputDirectory>
+    </reporting>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <configuration>
+                    <ejbVersion>3.0</ejbVersion>
+                    <generateClient>true</generateClient>
+                    <clientIncludes>
+                        <clientInclude>**/*RemoteI.class</clientInclude>
+                        <clientInclude>**/api/*.class</clientInclude>
+                    </clientIncludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+		<dependency>
+            <groupId>se.posten.cisp.kmr2adapter</groupId>
+            <artifactId>kmr2communicator-ejb</artifactId>
+            <version>${version.se.posten.cisp.kmr2adapter}</version>
+			<type>ejb-client</type>
+		</dependency>
+        <dependency>
+            <groupId>se.posten.cisp.utilities</groupId>
+            <artifactId>interceptorutils</artifactId>
+            <version>${version.se.posten.cisp.utilities}</version>
+        </dependency>
+	    <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <scope>provided</scope>
+        </dependency>
+	</dependencies>
+</project>

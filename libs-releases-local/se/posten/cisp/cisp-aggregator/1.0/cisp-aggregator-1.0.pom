@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>se.posten.cisp</groupId>
+    <artifactId>cisp-aggregator</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+
+    <name>CISP Aggregator</name>
+
+    <inceptionYear>2010</inceptionYear>
+
+    <organization>
+        <name>Posten AB</name>
+        <url>http://www.posten.se</url>
+    </organization>
+
+    <!--
+        At least Maven version 2.2.0 is required to build this project.
+    -->
+    <prerequisites>
+        <maven>2.2.0</maven>
+    </prerequisites>
+
+    <!--
+        Constants used throughout this project.
+
+        These properties are used to specify for instance which corporate
+        version of JBoss AS should be used. If this version changes, it is
+        necessary to add the new versions of all dependencies to Artifactory
+        and subsequently update the constant stated below.
+    -->
+    <properties>
+        <dependencies.jboss.version>4.2.3.GA</dependencies.jboss.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.javaVersion>1.6</project.build.javaVersion>
+    </properties>
+
+    <!--
+        Defines global profiles.
+    -->
+    <profiles>
+        <!-- Used by Hudson to generate a set of reports -->
+        <profile>
+            <id>hudson-ci</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>checkstyle</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <encoding>${project.build.sourceEncoding}</encoding>
+                            <outputFileFormat>xml</outputFileFormat>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-pmd-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>pmd</goal>
+                                    <goal>cpd</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                            <minimumTokens>100</minimumTokens>
+                            <targetJdk>${project.build.javaVersion}</targetJdk>
+                            <format>xml</format>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>findbugs-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>findbugs</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <xmlOutput>true</xmlOutput>
+                            <effort>Max</effort>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>cobertura-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>cobertura</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <formats>
+                                <format>xml</format>
+                            </formats>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <!--
+        Defines build-time defaults.
+
+        In this case, we require the encoding UTF-8 for all code and resource
+        files as well as defining JDK 1.6 as our compiler.
+    -->
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <source>${project.build.javaVersion}</source>
+                    <target>${project.build.javaVersion}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <!-- Enables JBoss Artifact generation -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jboss-packaging-maven-plugin</artifactId>
+                <extensions>true</extensions>
+            </plugin>
+        </plugins>
+
+        <!--
+            Defines versions of plugin dependencies globally.
+        -->
+        <pluginManagement>
+            <plugins>
+                <!-- Also default, no overriding though, just reconfiguration -->
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <includes>
+                            <include>**/*Test.java</include>
+                        </includes>
+                    </configuration>
+                </plugin>
+
+                <!--
+                    Following are external Maven plugins, which help us building
+                    great applications.
+                -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>hibernate3-maven-plugin</artifactId>
+                    <version>2.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
+                    <version>2.4</version>
+                    <!--executions>
+                        <execution>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                        </execution>
+                    </executions-->
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>jboss-maven-plugin</artifactId>
+                    <version>1.4</version>
+                    <configuration>
+                        <jbossHome>${env.JBOSS_HOME}</jbossHome>
+                        <serverName>${env.JBOSS_CONF}</serverName>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-jxr-plugin</artifactId>
+                    <version>2.1</version>
+                </plugin>
+                <!--plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>jdepend-maven-plugin</artifactId>
+                    <version>2.0-beta-2</version>
+                </plugin-->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>taglist-maven-plugin</artifactId>
+                    <version>2.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>findbugs-maven-plugin</artifactId>
+                    <version>2.3.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>javancss-maven-plugin</artifactId>
+                    <version>2.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>xmlbeans-maven-plugin</artifactId>
+                    <version>2.3.3</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>jboss-packaging-maven-plugin</artifactId>
+                    <version>2.1.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>jaxws-maven-plugin</artifactId>
+                    <version>1.12</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>1.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <!-- Configures which plugins are used for the generated reports (site). -->
+    <reporting>
+        <plugins>
+            <!-- Generates the default Maven Site -->
+            <plugin>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+            </plugin>
+
+            <!-- Generates HTML pages of the Source Code -->
+            <plugin>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <configuration>
+                    <!-- Expects the file encoding to be UTF-8 (according to constant) -->
+                    <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
+                    <!-- Sets the encoding of the HTML pages to UTF-8 (according to constant) -->
+                    <outputEncoding>${project.build.sourceEncoding}</outputEncoding>
+                </configuration>
+            </plugin>
+
+            <!-- Generates a report for detected source code problems -->
+            <plugin>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <configuration>
+                    <!-- Links errors to the Source Code HTML pages -->
+                    <linkXRef>true</linkXRef>
+                    <!-- Expects the file encoding to be UTF-8 (according to constant) -->
+                    <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                    <!-- Copy-Paste Detection will be triggered if at least 100 tokens are identical (appx 5 lines) -->
+                    <minimumTokens>100</minimumTokens>
+                    <!-- The target runtime is JDK 1.6 (according to constant) -->
+                    <targetJdk>${project.build.javaVersion}</targetJdk>
+                    <!-- In addition to HTML, generate a XML report (for Hudson) -->
+                    <format>xml</format>
+                </configuration>
+            </plugin>
+
+            <!-- Generates a Unit Testing report -->
+            <plugin>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <configuration>
+                    <!-- Links errors to the Source Code HTML pages -->
+                    <linkXRef>true</linkXRef>
+                </configuration>
+            </plugin>
+
+            <!-- Generates a Unit Test Coverage report -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <configuration>
+                    <formats>
+                        <!-- Generate XML report (for Hudson) -->
+                        <format>xml</format>
+                        <!-- Generate HTML report (for the normal website) -->
+                        <format>html</format>
+                    </formats>
+                </configuration>
+            </plugin>
+
+            <!-- Generates a report illustrating all dependencies and architectural health of the project -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Generates a report with all "to do" entries in the code -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>taglist-maven-plugin</artifactId>
+                <configuration>
+                    <!-- Links detected to do's to the Source Code HTML pages -->
+                    <linkXRef>true</linkXRef>
+                    <!-- Expects the file encoding to be UTF-8 -->
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- Generates a Source Code Metrics report -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>javancss-maven-plugin</artifactId>
+                <configuration>
+                    <linkXRef>true</linkXRef>
+                </configuration>
+            </plugin>
+
+            <!-- Generates a FindBugs Report containing potential coding errors -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <configuration>
+                    <!-- Enables generation of an XML report (for Hudson -->
+                    <xmlOutput>true</xmlOutput>
+                    <!-- Find as many errors as possible -->
+                    <effort>Max</effort>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+
+    <!--
+        Defines a number of dependencies which are very commonly used in our environment. This gives a somewhat
+        misindicating view of the actually used dependencies, however, developer productivity and ease of use
+        are valued higher in our build system.
+    -->
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.openejb</groupId>
+            <artifactId>javaee-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!--dependency>
+            <groupId>javaee</groupId>
+            <artifactId>javaee-api</artifactId>
+            <scope>provided</scope>
+        </dependency-->
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-ejb3</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-annotations-ejb3</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jbossws-client</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jbossws-spi</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!--
+        Defines versions of dependencies globally.
+    -->
+    <dependencyManagement>
+        <dependencies>
+            <!--
+                Runtime dependencies
+            -->
+
+            <!-- API for Java EE (incl. servlets, jsf, jms, mail, etc.) -->
+            <dependency>
+                <groupId>org.apache.openejb</groupId>
+                <artifactId>javaee-api</artifactId>
+                <version>5.0-2</version>
+            </dependency>
+            <!--dependency>
+                <groupId>javaee</groupId>
+                <artifactId>javaee-api</artifactId>
+                <version>5</version>
+            </dependency-->
+            <!-- API for JBoss-related Java EE extensions (i.e. StrictMaxPool) -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jboss-ejb3</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- API for JBoss-related Java EE annotations (i.e. @SecurityDomain) -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jboss-annotations-ejb3</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- API for JBoss-related JAX-WS extensions (i.e. @WebContext) -->
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jbossws-spi</artifactId>
+                <version>1.0.0.GA</version>
+            </dependency>
+            <!-- All-in-one client archive to contact Web Services -->
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jbossws-client</artifactId>
+                <version>2.0.1.SP2</version>
+            </dependency>
+            <!-- JBoss System API -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jboss-system</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- JBoss Commons -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jboss-common</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- JBoss JMX API -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jboss-jmx</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- JDK tools -->
+            <dependency>
+                <groupId>sun.jdk</groupId>
+                <artifactId>tools</artifactId>
+                <version>${project.build.javaVersion}</version>
+                <scope>system</scope>
+                <systemPath>${java.home}/../lib/tools.jar</systemPath>
+            </dependency>
+            <!-- Uber-Jar for the Quartz Scheduler (as used in JBoss) -->
+            <dependency>
+                <groupId>quartz</groupId>
+                <artifactId>quartz</artifactId>
+                <version>1.5.2</version>
+            </dependency>
+            <!-- LOG4j archive for logging -->
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.14</version>
+            </dependency>
+            <!-- Apache Commons Logging -->
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>1.1</version>
+            </dependency>
+            <!-- Hibernate Annotations -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-annotations</artifactId>
+                <version>3.3.1.GA</version>
+            </dependency>
+            <!-- Hibernate Commons Annotations -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-commons-annotations</artifactId>
+                <version>3.0.0.ga</version>
+            </dependency>
+            <!-- Hibernate Validator -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>3.0.0.ga</version>
+            </dependency>
+            <!-- Hibernate EntityManager -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-entitymanager</artifactId>
+                <version>3.3.2.GA</version>
+            </dependency>
+            <!-- Apache Commons HTTP Client -->
+            <dependency>
+                <groupId>commons-httpclient</groupId>
+                <artifactId>commons-httpclient</artifactId>
+                <version>3.0.1</version>
+            </dependency>
+            <!-- Apache Commons Lang -->
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.5</version>
+            </dependency>
+            <!-- Apache Commons IO -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>1.4</version>
+            </dependency>
+            <!-- Apache Commons Collections -->
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>3.1</version>
+            </dependency>
+            <!-- Apache XMLBeans -->
+            <dependency>
+                <groupId>org.apache.xmlbeans</groupId>
+                <artifactId>xmlbeans</artifactId>
+                <version>2.4.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>stax</groupId>
+                        <artifactId>stax-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+
+            <!--
+                Test dependencies
+            -->
+
+            <!-- JUnit archive to execute unit tests -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.8.1</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- Higher level testing framework -->
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>5.11</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- Mocking framework for unit tests -->
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.8.3</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- Database testing framework -->
+            <dependency>
+                <groupId>org.dbunit</groupId>
+                <artifactId>dbunit</artifactId>
+                <version>2.4.7</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- In-Memory Database -->
+            <dependency>
+                <groupId>hsqldb</groupId>
+                <artifactId>hsqldb</artifactId>
+                <version>1.8.0.7</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- Tells Maven where it finds libraries (overriding Maven's built-in
+    "central" repository reference)
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>Company-local Library Repository</name>
+            <layout>default</layout>
+            <url>http://10.122.110.34:8080/artifactory/repo/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories> -->
+
+    <!-- Tells Maven where it finds plugins (overriding Maven's built-in
+    "central" repository reference)
+    <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <name>Company-local Plugin Repository</name>
+            <url>http://10.122.110.34:8080/artifactory/repo/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories> -->
+
+    <!-- Handles automated distribution of your artifacts to the repository. -->
+    <distributionManagement>
+        <repository>
+            <id>libs-releases-local</id>
+            <name>Repository for local artifact releases</name>
+            <url>dav:http://repo.utv.posten.se/libs-releases-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>libs-snapshots-local</id>
+            <name>Repository for local artifact snapshots</name>
+            <url>dav:http://repo.utv.posten.se/libs-snapshots-local</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+</project>

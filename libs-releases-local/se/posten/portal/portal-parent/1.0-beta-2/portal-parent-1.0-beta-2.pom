@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>se.posten.portal</groupId>
+    <artifactId>portal-parent</artifactId>
+    <packaging>pom</packaging>
+    <name>portal-parent</name>
+    <version>1.0-beta-2</version>
+    <description>This is the the parent project model for all projects within the portal platform.</description>
+    <inceptionYear>2009</inceptionYear>
+
+    <developers>
+        <developer>
+            <name>Daniel Pfeifer</name>
+            <email>d.pfeifer@qurius.com</email>
+            <organization>Qurius AB</organization>
+            <organizationUrl>http://www.qurius.com</organizationUrl>
+            <timezone>+1</timezone>
+            <roles>
+                <role>Java Expert Consultant</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <organization>
+        <name>Posten AB</name>
+        <url>http://www.posten.se</url>
+    </organization>
+
+    <!--
+        At least Maven version 2.0.9 is required to build this project.
+    -->
+    <prerequisites>
+        <maven>2.0.9</maven>
+    </prerequisites>
+
+    <!--
+        Constants used throughout this project.
+        
+        These properties are used to specify, i.e. the corporate version of
+        JBoss AS. If this version changes, it is necessary to add the new
+        versions of all dependencies to Artifactory and subsequently update
+        the constant stated below.
+    -->
+    <properties>
+        <dependencies.jboss.version>4.3.0.GA_CP03_FP01</dependencies.jboss.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <!--
+        Defines dependencies which every project module can't do without, hence,
+        they can be defined here so we don't need to specify them again and
+        again.
+
+        Versions are managed in the <dependencyManagement>-section. Descriptions
+        of the artifacts are given there as well.
+    -->
+    <dependencies>
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-j2ee</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-ejb3x</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>ejb3-persistence</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-jaxws</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-jaxrpc</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-saaj</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!--
+        Defines build-time defaults.
+        
+        In this case, we require the encoding UTF-8 for all code and resource
+        files as well as defining JDK 1.6 as our compiler.
+    -->
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <debug>true</debug>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <!--
+            Defines versions of plugin dependencies globally.
+        -->
+        <pluginManagement>
+            <plugins>
+                <!--
+                    Following are default Maven plugins, however, we are
+                    overriding the versions from the Maven Super POM, since
+                    there are newer.
+                -->
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.2-beta-3</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.4.3</version>
+                    <configuration>
+                        <includes>
+                            <include>**/*Test.java</include>
+                        </includes>
+                    </configuration>
+                </plugin>
+
+                <!--
+                    Following are also default Maven plugins, however, they are
+                    not included in the Maven Super POM.
+                -->
+                <plugin>
+                    <artifactId>maven-surefire-report-plugin</artifactId>
+                    <version>2.4.3</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-pmd-plugin</artifactId>
+                    <version>2.4</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-eclipse-plugin</artifactId>
+                    <version>2.5.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>2.2</version>
+                </plugin>
+
+                <!--
+                    Following are external Maven plugins, which help us building
+                    great applications.
+                -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>hibernate3-maven-plugin</artifactId>
+                    <version>2.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
+                    <version>2.2</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>jboss-maven-plugin</artifactId>
+                    <version>1.3.1</version>
+                    <configuration>
+                        <jbossHome>${env.JBOSS_HOME}</jbossHome>
+                        <serverName>${env.JBOSS_CONF}</serverName>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-jxr-plugin</artifactId>
+                    <version>2.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>jdepend-maven-plugin</artifactId>
+                    <version>2.0-beta-2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>taglist-maven-plugin</artifactId>
+                    <version>2.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>findbugs-maven-plugin</artifactId>
+                    <version>1.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.cactus</groupId>
+                    <artifactId>cactus.integration.maven2</artifactId>
+                    <version>1.8.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.cargo</groupId>
+                    <artifactId>cargo-maven2-plugin</artifactId>
+                    <version>1.0-beta-2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>javancss-maven-plugin</artifactId>
+                    <version>2.0-beta-2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <!-- Configures which plugins are used for the generated reports (site). -->
+    <reporting>
+        <plugins>
+            <!-- Generates the default Maven Site -->
+            <plugin>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+            </plugin>
+
+            <!-- Generates HTML pages of the Source Code -->
+            <plugin>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <configuration>
+                    <!-- Expects the file encoding to be UTF-8 -->
+                    <inputEncoding>UTF-8</inputEncoding>
+                    <!-- Sets the encoding of the HTML pages to UTF-8 -->
+                    <outputEncoding>UTF-8</outputEncoding>
+                </configuration>
+            </plugin>
+
+            <!-- Generates JavaDoc for the Source Code -->
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <!-- Tells the Plugin to add UML diagrams to the JavaDoc -->
+                    <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
+                    <!-- Tells the Plugin where to find the UML Doclet -->
+                    <docletArtifact>
+                        <groupId>org.umlgraph</groupId>
+                        <artifactId>umlgraph</artifactId>
+                        <version>5.2</version>
+                    </docletArtifact>
+                    <additionalparam>
+                        -inferrel
+                        -inferdep
+                        -quiet
+                        -hide java.*
+                        -collpackages java.util.*
+                        -qualify
+                        -postfixpackage
+                        -nodefontsize 9
+                        -nodefontpackagesize 7
+                    </additionalparam>
+                </configuration>
+            </plugin>
+
+            <!-- Generates a report for detected source code problems -->
+            <plugin>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <configuration>
+                    <!-- Links errors to the Source Code HTML pages -->
+                    <linkXRef>true</linkXRef>
+                    <!-- Expects the file encoding to be UTF-8 -->
+                    <sourceEncoding>UTF-8</sourceEncoding>
+                    <!-- Copy-Paste Detection will be triggered if at least 100 tokens are identical (appx 5 lines) -->
+                    <minimumTokens>100</minimumTokens>
+                    <!-- The target runtime is JDK 1.6 -->
+                    <targetJdk>1.6</targetJdk>
+                    <!-- In addition to HTML, generate a XML report (for Hudson) -->
+                    <format>xml</format>
+                </configuration>
+            </plugin>
+
+            <!-- Generates a Unit Testing report -->
+            <plugin>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <configuration>
+                    <!-- Links errors to the Source Code HTML pages -->
+                    <linkXRef>true</linkXRef>
+                </configuration>
+            </plugin>
+
+            <!-- Generates a Unit Test Coverage report -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <configuration>
+                    <formats>
+                        <!-- Generate XML report (for Hudson) -->
+                        <format>xml</format>
+                        <!-- Generate HTML report (for the normal website) -->
+                        <format>html</format>
+                    </formats>
+                </configuration>
+            </plugin>
+
+            <!-- Generates a report illustrating all dependencies and architectural health of the project -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Generates a report with all "to do" entries in the code -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>taglist-maven-plugin</artifactId>
+                <configuration>
+                    <!-- Links detected to do's to the Source Code HTML pages -->
+                    <linkXRef>true</linkXRef>
+                    <!-- Expects the file encoding to be UTF-8 -->
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- Generates a Source Code Metrics report -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>javancss-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Generates a FindBugs Report containing potential coding errors -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <configuration>
+                    <!-- Enables generation of an XML report (for Hudson -->
+                    <xmlOutput>true</xmlOutput>
+                    <!-- Find as many errors as possible -->
+                    <effort>Max</effort>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+
+    <!--
+        Defines versions of dependencies globally.
+    -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- API for J2EE -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jboss-j2ee</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- API for Servlets -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>2.5</version>
+            </dependency>
+            <!-- API for JSPs -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>jsp-api</artifactId>
+                <version>2.0</version>
+            </dependency>
+            <!-- API for EL -->
+            <dependency>
+                <groupId>javax.el</groupId>
+                <artifactId>el-api</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <!-- JSTL for JSPs -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>jstl</artifactId>
+                <version>1.2</version>
+            </dependency>
+            <!-- API for JSF -->
+            <dependency>
+                <groupId>javax.faces</groupId>
+                <artifactId>jsf-api</artifactId>
+                <version>1.2_02</version>
+            </dependency>
+            <!-- API for Java EE extensions -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jboss-ejb3x</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- API for JAX-WS -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jboss-jaxws</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- API for JAX-RPC -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jboss-jaxrpc</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- API for SOAP with Attachments -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jboss-saaj</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- API for Java Persistence -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>ejb3-persistence</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- API for JAXB -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- Implementation of JAXB -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jaxb-impl</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- API for JBoss-related Java EE extensions -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jboss-annotations-ejb3</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- JBoss EJB infrastructure classes -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jboss-ejb3</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- All-in-one client archive to contact a JBoss server -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jbossall-client</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- Library holding the WSConsume Ant Task -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jbossws-spi</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- Library holding common classes for JBossWS -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jbossws-common</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- All-in-one client archive to contact Web Services -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jbossws-client</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- Library holding core classes for JBossWS -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jbossws-core</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- Library containing the generator classes for the JAX-WS tools -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jaxws-tools</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- Library containing JAX-WS Runtime classes -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jaxws-rt</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- JAXB XML-to-Java Compiler -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jaxb-xjc</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- GNU getopt parser -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>getopt</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- Library WS Transaction -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>wstx</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- API for STAX -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>stax-ex</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- StreamBuffer for STAX -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>streambuffer</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- GNU parser -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>getopt</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- JBoss XML Binding -->
+            <dependency>
+                <groupId>jboss</groupId>
+                <artifactId>jboss-xml-binding</artifactId>
+                <version>${dependencies.jboss.version}</version>
+            </dependency>
+            <!-- JDK tools -->
+            <dependency>
+                <groupId>sun.jdk</groupId>
+                <artifactId>tools</artifactId>
+                <version>1.6</version>
+                <scope>system</scope>
+                <systemPath>${java.home}/../lib/tools.jar</systemPath>
+            </dependency>
+            <!-- Implementation of the Apache XML parser -->
+            <dependency>
+                <groupId>xerces</groupId>
+                <artifactId>xercesImpl</artifactId>
+                <version>2.7.1</version>
+            </dependency>
+            <!-- Javassist Byte Code Manipulator -->
+            <dependency>
+                <groupId>javassist</groupId>
+                <artifactId>javassist</artifactId>
+                <version>3.8.0.GA</version>
+            </dependency>
+            <!-- API for Mail -->
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>1.4.1</version>
+            </dependency>
+            <!-- JavaBeans Activation Framework -->
+            <dependency>
+                <groupId>javax.activation</groupId>
+                <artifactId>activation</artifactId>
+                <version>1.1</version>
+            </dependency>
+            <!-- LOG4j archive for logging -->
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.14</version>
+            </dependency>
+            <!-- Apache Commons Logging -->
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>1.1</version>
+            </dependency>
+            <!-- Oracle's JDK 6-compatible JDBC driver -->
+            <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc6</artifactId>
+                <version>11.1.0.7.0</version>
+            </dependency>
+            <!-- Hibernate Annotations -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-annotations</artifactId>
+                <version>3.3.1.GA</version>
+            </dependency>
+            <!-- Hibernate Commons Annotations -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-commons-annotations</artifactId>
+                <version>3.0.0.ga</version>
+            </dependency>
+            <!-- Hibernate Validator -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>3.0.0.ga</version>
+            </dependency>
+            <!-- Hibernate EntityManager -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-entitymanager</artifactId>
+                <version>3.3.2.GA</version>
+            </dependency>
+            <!-- JUnit archive to execute unit tests -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.5</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- DBUnit database extension for JUnit -->
+            <dependency>
+                <groupId>org.dbunit</groupId>
+                <artifactId>dbunit</artifactId>
+                <version>2.4.3</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- JDepend -->
+            <dependency>
+                <groupId>jdepend</groupId>
+                <artifactId>jdepend</artifactId>
+                <version>2.9.1</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- Hypersonic In-Memory database -->
+            <dependency>
+                <groupId>hsqldb</groupId>
+                <artifactId>hsqldb</artifactId>
+                <version>1.8.0.7</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- EasyGloss -->
+            <dependency>
+                <groupId>com.stvconsultants</groupId>
+                <artifactId>easygloss</artifactId>
+                <version>1.2</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- Cactus Integration Test Framework -->
+            <dependency>
+                <groupId>org.apache.cactus</groupId>
+                <artifactId>cactus.core.framework.uberjar.javaEE.15</artifactId>
+                <version>1.8.1</version>
+                <type>pom</type>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- Tells Maven where it finds libraries (only backup if a proper settings.xml doesn't exist). -->
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>Company-local Library Repository</name>
+            <layout>default</layout>
+            <url>http://10.122.110.34:8080/artifactory/repo/</url>
+            <releases>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>snapshots</id>
+            <name>Company-local Snapshot Library Repository</name>
+            <layout>default</layout>
+            <url>http://10.122.110.34:8080/artifactory/repo/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <!-- Tells Maven where it finds plugins (only backup if a proper settings.xml doesn't exist). -->
+    <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <name>Company-local Plugin Repository</name>
+            <url>http://10.122.110.34:8080/artifactory/repo/</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+        </pluginRepository>
+        <pluginRepository>
+            <id>snapshots</id>
+            <name>Company-local Snapshot Plugin Repository</name>
+            <url>http://10.122.110.34:8080/artifactory/repo/</url>
+            <layout>default</layout>
+            <snapshots>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <!-- Handles automated distribution of your artifacts to the repository. -->
+    <distributionManagement>
+        <repository>
+            <id>libs-releases-local</id>
+            <name>Repository for local artifact releases</name>
+            <url>dav:http://10.122.110.34:8080/artifactory/libs-releases-local/</url>
+        </repository>
+        <snapshotRepository>
+            <id>libs-snapshots-local</id>
+            <name>Repository for local artifact snapshots</name>
+            <url>dav:http://10.122.110.34:8080/artifactory/libs-snapshots-local/</url>
+        </snapshotRepository>
+    </distributionManagement>
+</project>

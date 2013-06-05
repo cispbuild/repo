@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>se.posten.cisp.postalserviceorderhandling</groupId>
+		<artifactId>postalserviceorderhandling-aggregator</artifactId>
+		<version>1.0</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<artifactId>postalserviceorderhandling-ejb</artifactId>
+
+	<name>CISP postalserviceorderhandling : ${project.artifactId}</name>
+
+	<packaging>ejb</packaging>
+
+	<reporting>
+		<outputDirectory>${basedir}/../target/site/${project.artifactId}</outputDirectory>
+	</reporting>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-ejb-plugin</artifactId>
+				<configuration>
+					<ejbVersion>3.0</ejbVersion>
+					<generateClient>true</generateClient>
+					<clientIncludes>
+						<clientInclude>**/*Remote.class</clientInclude>
+						<clientInclude>**/*Error.class</clientInclude>
+						<clientInclude>**/exception/*.class</clientInclude>
+					</clientIncludes>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>hibernate3-maven-plugin</artifactId>
+				<configuration>
+					<components>
+						<component>
+							<name>hbm2ddl</name>
+							<implementation>annotationconfiguration</implementation>
+						</component>
+					</components>
+					<componentProperties>
+						<implementation>jpaconfiguration</implementation>
+						<outputfilename>schema.sql</outputfilename>
+						<export>false</export>
+						<format>true</format>
+						<create>false</create>
+						<persistenceunit>postalserviceorderhandlingPU</persistenceunit>
+					</componentProperties>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>hbm2ddl</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>xmlbeans-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>xmlbeans</goal>
+						</goals>
+					</execution>
+				</executions>
+				<inherited>true</inherited>
+				<configuration>
+					<schemaDirectory>src/main/resources/xsd</schemaDirectory>
+					<sourceGenerationDirectory>src/main/java-generated</sourceGenerationDirectory>
+				</configuration>
+			</plugin>
+
+		</plugins>
+
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>${basedir}/../isu-postbox-soapclient/src/main/config</directory>
+				<includes>
+					<include>**/*.wsdl</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>${basedir}/src/main/resources/</directory>
+			</resource>
+
+		</resources>
+
+	</build>
+
+	<dependencies>
+	    <dependency>
+            <groupId>org.apache.xmlbeans</groupId>
+            <artifactId>xmlbeans</artifactId>
+        </dependency>
+		
+		<!-- Common dependency, remove, if it isn't needed -->
+		<dependency>
+			<groupId>se.posten.cisp.configuration</groupId>
+			<artifactId>configurationservice-ejb</artifactId>
+			<version>${version.se.posten.cisp.configuration}</version>
+			<type>ejb-client</type>
+		</dependency>
+
+		<dependency>
+			<groupId>se.posten.cisp.bdb</groupId>
+			<artifactId>securityutils</artifactId>
+			<version>${version.se.posten.cisp.bdb}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>se.posten.cisp.utilities</groupId>
+			<artifactId>utils</artifactId>
+			<version>${version.se.posten.cisp.utilities}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>se.posten.cisp.utilities</groupId>
+			<artifactId>interceptorutils</artifactId>
+			<version>${version.se.posten.cisp.utilities}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>se.posten.cisp.mail</groupId>
+			<artifactId>mailservice-ejb</artifactId>
+			<version>${version.se.posten.cisp.mail}</version>
+			<type>ejb-client</type>
+		</dependency>
+		
+		 <dependency>
+			<groupId>se.posten.cisp.itemnotes</groupId>
+			<artifactId>itemnotes-commons</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency> 
+
+		<dependency>
+			<groupId>se.posten.cisp.kmr2adapter</groupId>
+			<artifactId>kmr2communicator-ejb</artifactId>
+			<version>${version.se.posten.cisp.kmr2adapter}</version>
+			<type>ejb-client</type>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>se.posten.cisp.postalserviceorderhandling</groupId>
+			<artifactId>isu-postbox-soapclient</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>se.posten.cisp.internationalizationservice</groupId>
+			<artifactId>internationalizationservice-ejb</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- Java EE/JBoss dependencies -->
+		 <dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate</artifactId>
+			<version>3.2.6.ga</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-commons-annotations</artifactId>
+			<scope>provided</scope>
+		</dependency> 
+		<dependency>
+			<groupId>org.docx4j</groupId>
+			<artifactId>docx4j</artifactId>
+			<version>2.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.4</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-vfs</groupId>
+			<artifactId>commons-vfs</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+   			<groupId>commons-lang</groupId>
+   			<artifactId>commons-lang</artifactId>
+   			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+			<version>5.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>xmlgraphics-commons</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+	</dependencies>
+
+</project>

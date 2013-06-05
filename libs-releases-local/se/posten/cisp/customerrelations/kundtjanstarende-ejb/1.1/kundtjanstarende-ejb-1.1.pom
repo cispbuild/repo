@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>se.posten.cisp.customerrelations</groupId>
+        <artifactId>customerrelations-aggregator</artifactId>
+        <version>1.1</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>kundtjanstarende-ejb</artifactId>
+
+    <name>CISP Customer Service Issue Service : ${project.artifactId}</name>
+
+    <packaging>ejb</packaging>
+
+    <reporting>
+        <outputDirectory>
+            ${basedir}/../target/site/${project.artifactId}
+        </outputDirectory>
+    </reporting>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <configuration>
+                    <ejbVersion>3.0</ejbVersion>
+                    <generateClient>true</generateClient>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+          <dependency>
+            <groupId>se.posten.cisp.mail</groupId>
+            <artifactId>mailservice-ejb</artifactId>
+            <version>${version.se.posten.cisp.mail}</version>
+            <type>ejb-client</type>
+        </dependency>                
+        <dependency>
+            <groupId>se.posten.cisp.log</groupId>
+            <artifactId>logservice-ejb</artifactId>
+            <version>${version.se.posten.cisp.log}</version>
+            <type>ejb-client</type>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.configuration</groupId>
+            <artifactId>configurationservice-ejb</artifactId>
+            <version>${version.se.posten.cisp.configuration}</version>
+            <type>ejb-client</type>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.bdb</groupId>
+            <artifactId>securityutils</artifactId>
+            <version>${version.se.posten.cisp.bdb}</version>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.utilities</groupId>
+            <artifactId>interceptorutils</artifactId>
+            <version>${version.se.posten.cisp.utilities}</version>
+        </dependency>        
+        <dependency>
+            <groupId>se.posten.cisp.utilities</groupId>
+            <artifactId>utils</artifactId>
+            <version>${version.se.posten.cisp.utilities}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sap-soapclient</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

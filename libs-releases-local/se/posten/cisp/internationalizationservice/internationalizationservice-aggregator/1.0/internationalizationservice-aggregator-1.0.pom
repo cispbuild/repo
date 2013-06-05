@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>cisp-aggregator</artifactId>
+        <groupId>se.posten.cisp</groupId>
+        <version>1.0</version>
+    </parent>
+
+    <groupId>se.posten.cisp.internationalizationservice</groupId>
+    <artifactId>internationalizationservice-aggregator</artifactId>
+    <version>1.0</version>
+
+    <packaging>pom</packaging>
+
+    <name>CISP internationalizationservice Aggregator</name>
+
+    <modules>
+        <module>internationalizationservice-ejb</module>
+        <module>internationalizationservice-ear</module>
+        <module>serverconf</module>
+    </modules>
+
+    <profiles>
+        <profile>
+            <id>dist</id>
+            <modules>
+                <module>dist-assembly</module>
+            </modules>
+        </profile>
+    </profiles>
+
+    <!-- This section gives a convenient reference of other dependencies versions. Change here if another another
+    component that you rely on has a new version you want to use. -->
+    <properties>
+        <!-- Example dependency, remove, if it isn't needed -->
+        <version.se.posten.cisp.utilities>1.1-SNAPSHOT</version.se.posten.cisp.utilities>
+	<version.se.posten.cisp.configuration>1.1</version.se.posten.cisp.configuration>
+	<version.se.posten.cisp.bdb>1.5</version.se.posten.cisp.bdb>
+    </properties>
+
+    <!-- This is only used to help Eclipse find the parent POM, everything else should be referenced via
+    Maven's settings.xml -->
+    <repositories>
+        <repository>
+            <id>libs-releases-local</id>
+            <name>Company-local Library Releases Repository</name>
+            <layout>default</layout>
+            <url>http://repo.utv.posten.se/libs-releases-local</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+</project>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>se.posten.cisp.paymentjobs</groupId>
+        <artifactId>paymentjobs-aggregator</artifactId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>paymentjobs-ejb</artifactId>
+
+    <name>CISP paymentjobs : ${project.artifactId}</name>
+
+    <packaging>ejb</packaging>
+
+    <reporting>
+        <outputDirectory>${basedir}/../target/site/${project.artifactId}</outputDirectory>
+    </reporting>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <configuration>
+                    <ejbVersion>3.0</ejbVersion>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+		<dependency>
+			<groupId>se.posten.cisp.payment</groupId>
+			<artifactId>payment-ejb</artifactId>
+            <version>${project.version}</version>
+            <type>ejb-client</type>
+		</dependency>
+		<dependency>
+            <groupId>quartz</groupId>
+            <artifactId>quartz</artifactId>
+            <!-- <scope>provided</scope> -->
+        </dependency>
+		
+        <!-- Common dependency, remove, if it isn't needed -->
+        <dependency>
+            <groupId>se.posten.cisp.utilities</groupId>
+            <artifactId>utils</artifactId>
+            <version>${version.se.posten.cisp.utilities}</version>
+        </dependency>
+    </dependencies>
+
+</project>

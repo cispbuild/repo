@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>se.posten.cisp.complaintservice</groupId>
+        <artifactId>complaintservice-aggregator</artifactId>
+        <version>3.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+	
+    <groupId>se.posten.cisp.complaintservice</groupId>
+    <artifactId>ella-soapclient</artifactId>
+    <packaging>jar</packaging>
+    <version>${project.parent.version}</version>
+    
+	<name>CISP complaintservice : ella-soapclient</name>
+	
+    <reporting>
+        <outputDirectory>
+            ${basedir}/../target/site/${project.artifactId}
+        </outputDirectory>
+    </reporting>
+
+    <profiles>
+        <profile>
+            <id>generate-client</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <!--
+                <file>
+                    Due to a bug in Maven (MNG-3017), this doesn't work. To prevent building of the client, build with
+                    "mvn -P!generate-client".
+                    <missing>${basedir}/src/main/java-generated/se</missing>
+                </file>
+                -->
+            </activation>
+            <build>
+			
+			 <plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>jaxws-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>gen-wsclient1</id>
+								<goals>
+									<goal>wsimport</goal>
+								</goals>
+								<configuration>
+									<!--keep>true</keep-->
+									<wsdlDirectory>${basedir}/src/main/config</wsdlDirectory>
+									<wsdlLocation>http://ellatest5.idp.posten.se:18080/ParcelStatusWS/ParcelStatusWS?wsdl</wsdlLocation> 
+									<!--<wsdlFiles>
+										<wsdlFile>ParcelStatusWS.wsdl</wsdlFile>
+										<wsdlFile>KollistatusWS.wsdl</wsdlFile>
+									</wsdlFiles>
+									--><!-- <staleFile>${basedir}/target/jaxws/stale/.staleFlag1</staleFile> -->
+									<target>2.0</target>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <argLine>-Djava.endorsed.dirs="${project.build.directory}/endorsed"</argLine>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/java-generated</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+	
+   <dependencies>
+   </dependencies>
+</project>

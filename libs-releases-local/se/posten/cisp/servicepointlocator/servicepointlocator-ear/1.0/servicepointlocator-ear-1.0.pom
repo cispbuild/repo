@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>se.posten.cisp.servicepointlocator</groupId>
+        <artifactId>servicepointlocator-aggregator</artifactId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>servicepointlocator-ear</artifactId>
+
+    <name>CISP servicepointlocator : ${project.artifactId}</name>
+    
+    <packaging>ear</packaging>
+
+    <reporting>
+        <outputDirectory>${basedir}/../target/site/${project.artifactId}</outputDirectory>
+    </reporting>
+
+    <build>
+        <finalName>servicepointlocator</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ear-plugin</artifactId>
+                <configuration>
+                    <version>5</version>
+                    <defaultJavaBundleDir>/lib</defaultJavaBundleDir>
+                    <defaultLibBundleDir>/lib</defaultLibBundleDir>
+                    <generateApplicationXml>true</generateApplicationXml>
+                    <modules>
+                        <ejbModule>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>servicepointlocator-ejb</artifactId>
+                        </ejbModule>
+                    </modules>
+                    <jboss>
+                        <version>4.2</version>
+                        <loader-repository>se.posten.cisp.servicepointlocator:archive=servicepointlocator.ear</loader-repository>
+                    </jboss>
+                </configuration>
+            </plugin>
+        </plugins>
+   
+    </build>
+
+    <dependencies>
+		<dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>isu-servicepoint-soapclient</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>servicepointlocator-ejb</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+        </dependency>
+    </dependencies>
+
+</project>

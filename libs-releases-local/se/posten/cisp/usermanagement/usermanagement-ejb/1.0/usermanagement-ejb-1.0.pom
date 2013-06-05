@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>se.posten.cisp.usermanagement</groupId>
+		<artifactId>usermanagement-aggregator</artifactId>
+		<version>1.0</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<artifactId>usermanagement-ejb</artifactId>
+
+	<name>CISP usermanagement : ${project.artifactId}</name>
+
+	<packaging>ejb</packaging>
+
+	<reporting>
+		<outputDirectory>${basedir}/../target/site/${project.artifactId}</outputDirectory>
+	</reporting>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-ejb-plugin</artifactId>
+				<configuration>
+					<ejbVersion>3.0</ejbVersion>
+					<generateClient>true</generateClient>
+					<clientIncludes>
+						<clientInclude>**/*Local.class</clientInclude>
+						<clientInclude>**/model/integration/connector/IdentityServiceConnectorRemote.class</clientInclude>
+						<clientInclude>**/dto/*DTO.class</clientInclude>
+						<clientInclude>**/exception/*.class</clientInclude>
+					</clientIncludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>hibernate3-maven-plugin</artifactId>
+				<configuration>
+					<components>
+						<component>
+							<name>hbm2ddl</name>
+							<implementation>annotationconfiguration</implementation>
+						</component>
+					</components>
+					<componentProperties>
+						<implementation>jpaconfiguration</implementation>
+						<outputfilename>schema.sql</outputfilename>
+						<export>false</export>
+						<format>true</format>
+						<create>false</create>
+						<persistenceunit>usermanagementPU</persistenceunit>
+					</componentProperties>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>hbm2ddl</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<findbugsXmlOutput>true</findbugsXmlOutput>
+					<timeout>1200000</timeout>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>findbugs</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<!-- Common dependency, remove, if it isn't needed -->
+		<dependency>
+			<groupId>se.posten.cisp.utilities</groupId>
+			<artifactId>utils</artifactId>
+			<version>${version.se.posten.cisp.utilities}</version>
+		</dependency>
+		<dependency>
+			<groupId>se.posten.cisp.configuration</groupId>
+			<artifactId>configurationservice-ejb</artifactId>
+			<version>${version.se.posten.cisp.configuration}</version>
+			<type>ejb-client</type>
+		</dependency>
+		<dependency>
+			<groupId>se.posten.cisp.bdb</groupId>
+			<artifactId>securityutils</artifactId>
+			<version>${version.se.posten.cisp.bdb}</version>
+		</dependency>
+		<dependency>
+			<groupId>se.posten.cisp.parservice</groupId>
+			<artifactId>parservice-ejb</artifactId>
+			<version>${version.se.posten.cisp.parservice}</version>
+			<type>ejb-client</type>
+		</dependency>
+		<dependency>
+			<groupId>se.posten.cisp.mail</groupId>
+			<artifactId>mailservice-ejb</artifactId>
+			<version>${version.se.posten.cisp.mail}</version>
+			<type>ejb-client</type>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>identityservice-soapclient</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>countrycodeservice-soapclient</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.4</version>
+		</dependency>
+	</dependencies>
+</project>

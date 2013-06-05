@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>se.posten.cisp.bdb</groupId>
+        <artifactId>bdb-aggregator</artifactId>
+        <version>1.5</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>serverconf</artifactId>
+
+    <name>CISP BDB Service : ${project.artifactId}</name>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <classifier>${artifact.classifier}</classifier>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+
+        <!-- This section contains the properties that may vary from environment to environment. They are activated
+      via profiles. -->
+
+        <!-- Properties for local developer machine -->
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <artifact.classifier>dev</artifact.classifier>
+                <destination.clustered>false</destination.clustered>
+                <datasource.bdb.url>jdbc:oracle:thin:@localhost:1521:loab</datasource.bdb.url>
+                <datasource.bdb.username>SECOBJ_1</datasource.bdb.username>
+                <datasource.bdb.password>ADMIN</datasource.bdb.password>
+            </properties>
+        </profile>
+
+        <!-- Properties for integration test machine -->
+        <profile>
+            <id>test</id>
+            <properties>
+                <artifact.classifier>test</artifact.classifier>
+                <destination.clustered>false</destination.clustered>
+                <datasource.bdb.url>jdbc:oracle:thin:@10.122.111.62:1521:PORTALS</datasource.bdb.url>
+                <datasource.bdb.username>SECAPP_6</datasource.bdb.username>
+                <datasource.bdb.password>staging</datasource.bdb.password>
+            </properties>
+        </profile>
+
+        <!-- Properties for integration test machine -->
+        <profile>
+            <id>systest</id>
+            <properties>
+                <artifact.classifier>systest</artifact.classifier>
+                <destination.clustered>false</destination.clustered>
+                <datasource.bdb.url>jdbc:oracle:thin:@10.122.111.62:1521:PORTALS</datasource.bdb.url>
+                <datasource.bdb.username>SECAPP_6</datasource.bdb.username>
+                <datasource.bdb.password>staging</datasource.bdb.password>
+            </properties>
+        </profile>
+
+        <!-- Properties for sam-integration machine -->
+        <profile>
+            <id>samint</id>
+            <properties>
+                <artifact.classifier>samint</artifact.classifier>
+                <destination.clustered>false</destination.clustered>
+                <datasource.bdb.url>jdbc:oracle:thin:@10.122.111.62:1521:PORTALS</datasource.bdb.url>
+                <datasource.bdb.username>SECAPP_6</datasource.bdb.username>
+                <datasource.bdb.password>staging</datasource.bdb.password>
+            </properties>
+        </profile>
+
+        <!-- Properties for load test machines -->
+        <profile>
+            <id>loadtest</id>
+            <properties>
+                <artifact.classifier>loadtest</artifact.classifier>
+                <destination.clustered>true</destination.clustered>
+                <datasource.bdb.url>jdbc:oracle:thin:@10.122.111.62:1521:PORTALL</datasource.bdb.url>
+                <datasource.bdb.username>SECAPP_6</datasource.bdb.username>
+                <datasource.bdb.password>admin</datasource.bdb.password>
+            </properties>
+        </profile>
+
+        <!-- Properties for staging machines -->
+        <profile>
+            <id>stage</id>
+            <properties>
+                <artifact.classifier>stage</artifact.classifier>
+                <destination.clustered>true</destination.clustered>
+                <datasource.bdb.url>jdbc:oracle:thin:@10.122.113.47:1521:PORTAL</datasource.bdb.url>
+                <datasource.bdb.username>SECAPP_6</datasource.bdb.username>
+                <datasource.bdb.password>becesa</datasource.bdb.password>
+            </properties>
+        </profile>
+
+        <!-- Properties for prod machines -->
+        <profile>
+            <id>prod</id>
+            <properties>
+                <artifact.classifier>prod</artifact.classifier>
+                <destination.clustered>true</destination.clustered>
+                <datasource.bdb.url>jdbc:oracle:thin:@10.122.113.47:1521:PORTAL</datasource.bdb.url>
+                <datasource.bdb.username>SECAPP_6</datasource.bdb.username>
+                <datasource.bdb.password>becesa</datasource.bdb.password>
+            </properties>
+        </profile>
+
+    </profiles>
+
+</project>

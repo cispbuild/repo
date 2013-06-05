@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>se.posten.cisp.customeroverview</groupId>
+        <artifactId>customeroverview-aggregator</artifactId>
+        <version>1.2</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>customeroverview-ejb</artifactId>
+
+    <name>CISP Customer Overview Service : ${project.artifactId}</name>
+
+    <packaging>ejb</packaging>
+
+    <reporting>
+        <outputDirectory>
+            ${basedir}/../target/site/${project.artifactId}
+        </outputDirectory>
+    </reporting>
+
+    <build>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+            <resource>
+                <filtering>true</filtering>
+                <directory>${basedir}/../ella-soapclient/src/main/config</directory>
+                <includes>
+                    <include>**/*.wsdl</include>
+                </includes>
+            </resource>
+            <resource>
+                <filtering>true</filtering>
+                <directory>${basedir}/../kmr-soapclient/src/main/config</directory>
+                <includes>
+                    <include>**/*.wsdl</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <configuration>
+                    <ejbVersion>3.0</ejbVersion>
+                    <generateClient>true</generateClient>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>sun.jdk</groupId>
+            <artifactId>tools</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.bdb</groupId>
+            <artifactId>securityutils</artifactId>
+            <version>${version.se.posten.cisp.bdb}</version>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.log</groupId>
+            <artifactId>logservice-ejb</artifactId>
+            <version>${version.se.posten.cisp.log}</version>
+            <type>ejb-client</type>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.configuration</groupId>
+            <artifactId>configurationservice-ejb</artifactId>
+            <version>${version.se.posten.cisp.configuration}</version>
+            <type>ejb-client</type>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.invoice</groupId>
+            <artifactId>fakturainfoservice-ejb</artifactId>
+            <version>${version.se.posten.cisp.invoice}</version>
+            <type>ejb-client</type>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.kmr2adapter</groupId>
+            <artifactId>kmr2communicator-ejb</artifactId>
+            <version>${version.se.posten.cisp.kmr2adapter}</version>
+            <type>ejb-client</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.utilities</groupId>
+            <artifactId>utils</artifactId>
+            <version>${version.se.posten.cisp.utilities}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ella-soapclient</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>kmr-soapclient</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.utilities</groupId>
+            <artifactId>interceptorutils</artifactId>
+            <version>${version.se.posten.cisp.utilities}</version>
+        </dependency>
+    </dependencies>
+
+</project>

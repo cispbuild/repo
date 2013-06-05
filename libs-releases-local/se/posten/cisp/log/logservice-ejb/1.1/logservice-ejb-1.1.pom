@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>se.posten.cisp.log</groupId>
+        <artifactId>log-aggregator</artifactId>
+        <version>1.1</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>logservice-ejb</artifactId>
+
+    <name>CISP Log Service : ${project.artifactId}</name>
+
+    <packaging>ejb</packaging>
+
+    <reporting>
+        <outputDirectory>
+            ${basedir}/../target/site/${project.artifactId}
+        </outputDirectory>
+    </reporting>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <configuration>
+                    <ejbVersion>3.0</ejbVersion>
+                    <generateClient>true</generateClient>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive>
+                    <clientIncludes>
+                        <clientInclude>
+                            se/posten/service/logservice/business/LogManager*I*.*
+                        </clientInclude>
+                        <clientInclude>
+                            se/posten/service/logservice/model/*.*
+                        </clientInclude>
+                        <clientInclude>
+                            se/posten/service/logservice/transport/interceptor/*.*
+                        </clientInclude>
+                    </clientIncludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>hibernate3-maven-plugin</artifactId>
+                <configuration>
+                    <components>
+                        <component>
+                            <name>hbm2ddl</name>
+                            <implementation>annotationconfiguration</implementation>
+                        </component>
+                    </components>
+                    <componentProperties>
+                        <implementation>jpaconfiguration</implementation>
+                        <outputfilename>schema.sql</outputfilename>
+                        <export>false</export>
+                        <format>true</format>
+                        <create>false</create>
+                        <persistenceunit>LogServiceJPA</persistenceunit>
+                    </componentProperties>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>hbm2ddl</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>se.posten.cisp.utilities</groupId>
+            <artifactId>utils</artifactId>
+            <version>${version.se.posten.cisp.utilities}</version>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.utilities</groupId>
+            <artifactId>interceptorutils</artifactId>
+            <version>${version.se.posten.cisp.utilities}</version>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.configuration</groupId>
+            <artifactId>configurationservice-ejb</artifactId>
+            <version>${version.se.posten.cisp.configuration}</version>
+            <type>ejb-client</type>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+</project>

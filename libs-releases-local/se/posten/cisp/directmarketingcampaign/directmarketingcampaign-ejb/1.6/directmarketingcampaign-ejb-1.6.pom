@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>se.posten.cisp.directmarketingcampaign</groupId>
+        <artifactId>directmarketingcampaign-aggregator</artifactId>
+        <version>1.6</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>directmarketingcampaign-ejb</artifactId>
+
+    <name>CISP directmarketingcampaign : ${project.artifactId}</name>
+
+    <packaging>ejb</packaging>
+
+    <reporting>
+        <outputDirectory>${basedir}/../target/site/${project.artifactId}</outputDirectory>
+    </reporting>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <configuration>
+                    <ejbVersion>3.0</ejbVersion>
+                    <generateClient>true</generateClient>
+		    <clientIncludes>
+			<clientInclude>**/api/**</clientInclude>
+			<clientInclude>**/business/*RemoteI.class</clientInclude>
+			<clientInclude>**/business/*LocalI.class</clientInclude>
+			<clientInclude>**/*Exception.class</clientInclude>
+		</clientIncludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>hibernate3-maven-plugin</artifactId>
+                <configuration>
+                    <components>
+                        <component>
+                            <name>hbm2ddl</name>
+                            <implementation>annotationconfiguration</implementation>
+                        </component>
+                    </components>
+                    <componentProperties>
+                        <implementation>jpaconfiguration</implementation>
+                        <outputfilename>schema.sql</outputfilename>
+                        <export>false</export>
+                        <format>true</format>
+                        <create>false</create>
+                        <persistenceunit>DRCampaignManagerPU</persistenceunit>
+                    </componentProperties>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>hbm2ddl</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+	     <plugin>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-antrun-plugin</artifactId>
+		    <executions>
+		      <execution>
+			<id>generate-version-class</id>
+			<phase>generate-sources</phase>
+			<goals>
+			  <goal>run</goal>
+			</goals>
+			<configuration>
+			  <tasks>
+			    <ant antfile="etc/build-version.xml" inheritAll="false" inheritRefs="false">
+			      <property name="version" value="${project.version}" />
+			      <property name="src.dir" value="${project.build.directory}/generated-sources" />
+					  <property name="artifactId" value="${project.artifactId}"/>
+					  <property name="groupId" value="${project.groupId}"/>
+					  <property name="buildName" value="${env.JOB_NAME}"/>
+					  <property name="buildNumber" value="${env.BUILD_NUMBER}"/>
+					  <property name="tag" value="${env.BUILD_TAG}"/>
+					  <property name="branch" value="${env.CVS_BRANCH}"/>
+			    </ant>
+			  </tasks>
+			  <sourceRoot>
+			    ${project.build.directory}/generated-sources
+			  </sourceRoot>
+			</configuration>
+		      </execution>
+		    </executions>
+		  </plugin>
+		  <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <formats>
+		    <format>xml</format>
+                    </formats>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>cobertura</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>payment-soapclient</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>kst-soapclient</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>dm-sap-soapclient</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.utilities</groupId>
+            <artifactId>utils</artifactId>
+            <version>${version.se.posten.cisp.utilities}</version>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.configuration</groupId>
+            <artifactId>configurationservice-ejb</artifactId>
+            <version>${version.se.posten.cisp.configuration}</version>
+            <type>ejb-client</type>
+	    <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.address</groupId>
+            <artifactId>address-ejb</artifactId>
+            <version>${version.se.posten.cisp.address}</version>
+            <type>ejb-client</type>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.mail</groupId>
+            <artifactId>mailservice-ejb</artifactId>
+            <version>${version.se.posten.cisp.mail}</version>
+            <type>ejb-client</type>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.bdb</groupId>
+            <artifactId>bdbservice-ejb</artifactId>
+            <version>${version.se.posten.cisp.bdb}</version>
+            <type>ejb-client</type>
+	    <optional>true</optional>
+        </dependency>
+		<dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6.1</version>
+            <exclusions>    
+	            <exclusion>
+	            	<groupId>xml-apis</groupId>
+	      			<artifactId>xml-apis</artifactId>
+            	</exclusion>
+           	</exclusions>
+        </dependency>
+	<dependency>
+		<groupId>commons-net</groupId>
+		<artifactId>commons-net</artifactId>
+		<version>2.0</version>
+	</dependency>
+	 <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+	<dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
+            <version>2.1.7</version>
+        </dependency>
+	<dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <scope>test</scope>
+        </dependency>
+	</dependencies>
+    
+
+</project>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>se.posten.cisp.accesscontroljobs</groupId>
+        <artifactId>accesscontroljobs-aggregator</artifactId>
+        <version>1.2</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>syncbdbjob-ejb</artifactId>
+
+    <name>CISP Access Control Jobs : ${project.artifactId}</name>
+    <version>${project.parent.version}</version>
+    <packaging>ejb</packaging>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/**</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ejb-plugin</artifactId>
+                <configuration>
+                    <ejbVersion>3.0</ejbVersion>
+                    <generateClient>false</generateClient>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>se.posten.cisp.utilities</groupId>
+            <artifactId>interceptorutils</artifactId>
+            <version>${version.se.posten.cisp.utilities}</version>
+        </dependency>
+        <dependency>
+            <groupId>quartz</groupId>
+            <artifactId>quartz</artifactId>
+            <!-- <scope>provided</scope>  -->
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.utilities</groupId>
+            <artifactId>utils</artifactId>
+            <version>${version.se.posten.cisp.utilities}</version>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.bdb</groupId>
+            <artifactId>bdbservice-ejb</artifactId>
+            <version>${version.se.posten.cisp.bdb}</version>
+            <type>ejb-client</type>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.configuration</groupId>
+            <artifactId>configurationservice-ejb</artifactId>
+            <version>${version.se.posten.cisp.configuration}</version>
+            <type>ejb-client</type>
+        </dependency>
+        <dependency>
+            <groupId>se.posten.cisp.mail</groupId>
+            <artifactId>mailservice-ejb</artifactId>
+            <version>${version.se.posten.cisp.mail}</version>
+            <type>ejb-client</type>
+        </dependency>   
+    </dependencies>
+
+	<profiles>
+		<profile>
+			<id>cluster</id>
+			<properties>
+				<singletonPrefix>deploy-hasingleton#</singletonPrefix>
+			</properties>
+		</profile>
+		<profile>
+			<id>nocluster</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<singletonPrefix></singletonPrefix>
+			</properties>
+		</profile>
+	</profiles>
+
+</project>

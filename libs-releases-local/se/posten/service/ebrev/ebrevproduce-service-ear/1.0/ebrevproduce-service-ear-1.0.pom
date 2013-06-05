@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+	<parent>
+        <groupId>se.posten.cisp.ebrev</groupId>
+        <artifactId>ebrevproduce-aggregator</artifactId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+	
+    <groupId>se.posten.service.ebrev</groupId>
+    <artifactId>ebrevproduce-service-ear</artifactId>
+    
+    <packaging>ear</packaging>
+    
+    <name>CISP ebrevProduce : ${project.artifactId}</name>
+    <reporting>
+        <outputDirectory>
+            ${basedir}/../target/site/${project.artifactId}
+        </outputDirectory>
+    </reporting>
+    <build>
+        <finalName>ebrev</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ear-plugin</artifactId>
+                <configuration>
+                    <version>5</version>
+                    <defaultJavaBundleDir>/lib</defaultJavaBundleDir>
+                    <defaultLibBundleDir>/lib</defaultLibBundleDir>
+                    <generateApplicationXml>true</generateApplicationXml>
+       
+                    <modules>
+                        <ejbModule>
+                            <groupId>se.posten.service.ebrev</groupId>
+                            <artifactId>ebrevproduce-service-ejb</artifactId>
+                        </ejbModule>
+                    </modules>
+                    <jboss>
+                        <version>4.2</version>
+                        <loader-repository>se.posten.cisp.ebrev:archive=ebrev.ear</loader-repository>
+                    </jboss>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jboss-maven-plugin</artifactId>
+                <configuration>
+                    <fileName>
+                        ${project.build.directory}/${project.build.finalName}.ear
+                    </fileName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+              <groupId>se.posten.service.ebrev</groupId>
+            <artifactId>ebrevproduce-service-ejb</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+        </dependency>
+       
+    </dependencies>
+</project>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>se.posten.cisp.parservice</groupId>
+        <artifactId>parservice-aggregator</artifactId>
+        <version>1.1</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>serverconf</artifactId>
+
+    <name>CISP parservice : ${project.artifactId}</name>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <classifier>${artifact.classifier}</classifier>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+
+        <!-- This section contains the properties that may vary from environment to environment. They are activated
+      via profiles. -->
+
+        <!-- Properties for local developer machine -->
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <artifact.classifier>dev</artifact.classifier>
+                <destination.clustered>false</destination.clustered>
+                <datasource.parservice.url>jdbc:oracle:thin:@AHA123<!-- TODO --></datasource.parservice.url>
+                <datasource.parservice.username><!-- TODO --></datasource.parservice.username>
+                <datasource.parservice.password><!-- TODO --></datasource.parservice.password>
+            </properties>
+        </profile>
+
+        <!-- Properties for integration test machine -->
+        <profile>
+            <id>test</id>
+            <properties>
+                <artifact.classifier>test</artifact.classifier>
+                <destination.clustered>false</destination.clustered>
+                <datasource.parservice.url>jdbc:oracle:thin:@TESTAR<!-- TODO --></datasource.parservice.url>
+                <datasource.parservice.username><!-- TODO --></datasource.parservice.username>
+                <datasource.parservice.password><!-- TODO --></datasource.parservice.password>
+            </properties>
+        </profile>
+
+        <!-- Properties for integration test machine -->
+        <profile>
+            <id>systest</id>
+            <properties>
+                <artifact.classifier>systest</artifact.classifier>
+                <destination.clustered>false</destination.clustered>
+                <datasource.parservice.url>jdbc:oracle:thin:@<!-- TODO --></datasource.parservice.url>
+                <datasource.parservice.username><!-- TODO --></datasource.parservice.username>
+                <datasource.parservice.password><!-- TODO --></datasource.parservice.password>
+            </properties>
+        </profile>
+
+        <!-- Properties for load test machines -->
+        <profile>
+            <id>loadtest</id>
+            <properties>
+                <artifact.classifier>loadtest</artifact.classifier>
+                <destination.clustered>true</destination.clustered>
+                <datasource.parservice.url>jdbc:oracle:thin:@<!-- TODO --></datasource.parservice.url>
+                <datasource.parservice.username><!-- TODO --></datasource.parservice.username>
+                <datasource.parservice.password><!-- TODO --></datasource.parservice.password>
+            </properties>
+        </profile>
+
+        <!-- Properties for staging machines -->
+        <profile>
+            <id>stage</id>
+            <properties>
+                <artifact.classifier>stage</artifact.classifier>
+                <destination.clustered>true</destination.clustered>
+                <datasource.parservice.url>jdbc:oracle:thin:@<!-- TODO --></datasource.parservice.url>
+                <datasource.parservice.username><!-- TODO --></datasource.parservice.username>
+                <datasource.parservice.password><!-- TODO --></datasource.parservice.password>
+            </properties>
+        </profile>
+
+        <!-- Properties for prod machines -->
+        <profile>
+            <id>prod</id>
+            <properties>
+                <artifact.classifier>prod</artifact.classifier>
+                <destination.clustered>true</destination.clustered>
+                <datasource.parservice.url>jdbc:oracle:thin:@<!-- TODO --></datasource.parservice.url>
+                <datasource.parservice.username><!-- TODO --></datasource.parservice.username>
+                <datasource.parservice.password><!-- TODO --></datasource.parservice.password>
+            </properties>
+        </profile>
+
+    </profiles>
+
+</project>

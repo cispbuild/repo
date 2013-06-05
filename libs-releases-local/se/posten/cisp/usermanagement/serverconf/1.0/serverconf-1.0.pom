@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>se.posten.cisp.usermanagement</groupId>
+		<artifactId>usermanagement-aggregator</artifactId>
+		<version>1.0</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<artifactId>serverconf</artifactId>
+
+	<name>CISP usermanagement : ${project.artifactId}</name>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<classifier>${artifact.classifier}</classifier>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<!--
+			This section contains the properties that may vary from environment
+			to environment. They are activated via profiles.
+		-->
+
+		<!-- Properties for local developer machine -->
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<artifact.classifier>dev</artifact.classifier>
+				<destination.clustered>false</destination.clustered>
+				<datasource.usermanagement.url>jdbc:oracle:thin:@127.0.0.1:1521:POSTEN</datasource.usermanagement.url>
+				<datasource.usermanagement.username>GTOWOBJ_1</datasource.usermanagement.username>
+				<datasource.usermanagement.password>admin</datasource.usermanagement.password>
+			</properties>
+		</profile>
+
+		<!-- Properties for integration test machine -->
+		<profile>
+			<id>test</id>
+			<properties>
+				<artifact.classifier>test</artifact.classifier>
+				<destination.clustered>false</destination.clustered>
+				<datasource.usermanagement.url>jdbc:oracle:thin:@10.122.111.62:1521:PORTALI</datasource.usermanagement.url>
+				<datasource.usermanagement.username>GTOWAPP_1</datasource.usermanagement.username>
+				<datasource.usermanagement.password>admin</datasource.usermanagement.password>				
+			</properties>
+		</profile>
+
+		<!-- Properties for integration test machine -->
+		<profile>
+			<id>systest</id>
+			<properties>
+				<artifact.classifier>systest</artifact.classifier>
+				<destination.clustered>false</destination.clustered>
+				<datasource.usermanagement.url>jdbc:oracle:thin:@10.122.111.62:1521:PORTALF</datasource.usermanagement.url>
+				<datasource.usermanagement.username>GTOWAPP_1</datasource.usermanagement.username>
+				<datasource.usermanagement.password>admin</datasource.usermanagement.password>
+			</properties>
+		</profile>
+
+		<!-- Properties for samint test machine -->
+		<profile>
+			<id>samint</id>
+			<properties>
+				<artifact.classifier>systest</artifact.classifier>
+				<destination.clustered>false</destination.clustered>
+				<datasource.usermanagement.url>dbc:oracle:thin:@10.122.111.62:1521:PORTALS</datasource.usermanagement.url>
+				<datasource.usermanagement.username>GTOWAPP_1</datasource.usermanagement.username>
+				<datasource.usermanagement.password>staging</datasource.usermanagement.password>
+			</properties>
+		</profile>
+		<!-- Properties for load test machines -->
+		<profile>
+			<id>loadtest</id>
+			<properties>
+				<artifact.classifier>loadtest</artifact.classifier>
+				<destination.clustered>true</destination.clustered>
+				<datasource.usermanagement.url>jdbc:oracle:thin:@10.122.111.62:1521:PORTALL<!-- TODO --></datasource.usermanagement.url>
+				<datasource.usermanagement.username>GTOWAPP_1</datasource.usermanagement.username>
+				<datasource.usermanagement.password>admin</datasource.usermanagement.password>
+			</properties>
+		</profile>
+
+		<!-- Properties for staging machines -->
+		<profile>
+			<id>stage</id>
+			<properties>
+				<artifact.classifier>stage</artifact.classifier>
+				<destination.clustered>true</destination.clustered>
+				<datasource.usermanagement.url>jdbc:oracle:thin:@10.122.111.62:1521:PORTALS</datasource.usermanagement.url>
+				<datasource.usermanagement.username>GTOWAPP_1</datasource.usermanagement.username>
+				<datasource.usermanagement.password>staging</datasource.usermanagement.password>
+			</properties>
+		</profile>
+
+		<!-- Properties for prod machines -->
+		<profile>
+			<id>prod</id>
+			<properties>
+				<artifact.classifier>prod</artifact.classifier>
+				<destination.clustered>true</destination.clustered>
+				<datasource.usermanagement.url>jdbc:oracle:thin:@10.122.113.47:1521:PORTAL</datasource.usermanagement.url>
+				<datasource.usermanagement.username>GTOWAPP_1</datasource.usermanagement.username>
+				<datasource.usermanagement.password>OLNIMO</datasource.usermanagement.password>
+			</properties>
+		</profile>
+	</profiles>
+</project>

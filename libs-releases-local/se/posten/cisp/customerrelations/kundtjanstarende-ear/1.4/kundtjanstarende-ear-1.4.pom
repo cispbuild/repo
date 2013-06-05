@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>se.posten.cisp.customerrelations</groupId>
+        <artifactId>customerrelations-aggregator</artifactId>
+        <version>1.4</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>kundtjanstarende-ear</artifactId>
+
+    <name>CISP Customer Service Issue Service : ${project.artifactId}</name>
+
+    <packaging>ear</packaging>
+
+    <reporting>
+        <outputDirectory>
+            ${basedir}/../target/site/${project.artifactId}
+        </outputDirectory>
+    </reporting>
+
+    <build>
+        <finalName>kundtjanstarende</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ear-plugin</artifactId>
+                <configuration>
+                    <version>5</version>
+                    <defaultLibBundleDir>/lib</defaultLibBundleDir>
+                    <defaultJavaBundleDir>/lib</defaultJavaBundleDir>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive>
+                    <generateApplicationXml>true</generateApplicationXml>
+                    <modules>
+                        <ejbModule>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>kundtjanstarende-ejb</artifactId>
+                        </ejbModule>
+                        <ejbClientModule>
+                            <groupId>se.posten.cisp.configuration</groupId>
+                            <artifactId>configurationservice-ejb</artifactId>
+                        </ejbClientModule>
+                        <ejbClientModule>
+                            <groupId>se.posten.cisp.bdb</groupId>
+                            <artifactId>bdbservice-ejb</artifactId>
+                        </ejbClientModule>
+                        <ejbClientModule>
+                            <groupId>se.posten.cisp.log</groupId>
+                            <artifactId>logservice-ejb</artifactId>
+                        </ejbClientModule>
+                    </modules>
+                    <jboss>
+                        <version>4.2</version>
+                        <loader-repository>
+                            ${project.groupId}:archive=${project.build.finalName}
+                        </loader-repository>
+                    </jboss>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jboss-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>kundtjanstarende-ejb</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+        </dependency>
+    </dependencies>
+
+</project>

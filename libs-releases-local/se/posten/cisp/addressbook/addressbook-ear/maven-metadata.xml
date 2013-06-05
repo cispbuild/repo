@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>se.posten.cisp.addressbook</groupId>
+  <artifactId>addressbook-ear</artifactId>
+  <version>1.0</version>
+  <versioning>
+    <latest>1.0</latest>
+    <release>1.0</release>
+    <versions>
+      <version>1.0</version>
+    </versions>
+    <lastUpdated>20120229131243</lastUpdated>
+  </versioning>
+</metadata>

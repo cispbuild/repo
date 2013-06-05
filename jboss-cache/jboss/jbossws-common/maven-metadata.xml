@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+  <groupId>jboss</groupId>
+  <artifactId>jbossws-common</artifactId>
+  <version>1.0.0.GA</version>
+  <versioning>
+    <versions>
+      <version>1.0.0.GA</version>
+      <version>1.0.4.GA</version>
+      <version>1.0.3.GA</version>
+    </versions>
+    <lastUpdated>20080506111524</lastUpdated>
+  </versioning>
+</metadata>

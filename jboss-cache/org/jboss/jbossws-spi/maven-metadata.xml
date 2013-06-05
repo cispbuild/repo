@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+  <groupId>org.jboss</groupId>
+  <artifactId>jbossws-spi</artifactId>
+  <version>1.0.0.GA</version>
+  <versioning>
+    <versions>
+      <version>1.0.0.GA</version>
+      <version>1.0.2.GA</version>
+    </versions>
+    <lastUpdated>20080331155800</lastUpdated>
+  </versioning>
+</metadata>

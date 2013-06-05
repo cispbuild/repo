@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+  <groupId>jboss</groupId>
+  <artifactId>jbossall-client</artifactId>
+  <version>4.2.2.GA</version>
+  <versioning>
+    <versions>
+      <version>4.2.2.GA</version>
+    </versions>
+    <lastUpdated>20080201180351</lastUpdated>
+  </versioning>
+</metadata>

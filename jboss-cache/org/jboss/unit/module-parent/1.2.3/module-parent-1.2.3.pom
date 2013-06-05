@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  This pom functions as a default configuration.  The subproject
+  poms each inherit configuration from this one.
+
+  When adding version information for an artifact please do the following
+  - add a version property for the specific version
+  - add a dependency in the dependencyManagement section which refers to
+    the property
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <parent>
+      <groupId>org.jboss.portal</groupId>
+      <artifactId>jboss-portal-parent</artifactId>
+      <version>1.0.0</version>
+   </parent>
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>org.jboss.unit</groupId>
+   <artifactId>module-parent</artifactId>
+   <version>1.2.3</version>
+   <packaging>pom</packaging>
+   <name>JBoss Portal Test Module</name>
+   <url>http://www.jboss.com/products/jbossmc</url>
+   <description>JBoss Portal Test Module</description>
+
+   <properties>
+      <version.jboss.microcontainer>2.0.0.Beta9</version.jboss.microcontainer>
+      <version.apache.httpclient>3.0.1</version.apache.httpclient>
+      <version.cargo>1.0-alpha-3</version.cargo>
+      <version.sun.opends>legacy</version.sun.opends>
+      <version.jboss.hibernate>3.2.3.GA</version.jboss.hibernate>
+      <version.dom4j>1.6.1</version.dom4j>
+      <version.jboss.jbossas.core-libs>4.0.4.GA</version.jboss.jbossas.core-libs>
+      <version.jboss.remoting>2.2.1.GA</version.jboss.remoting>
+      <version.ant>1.7.0</version.ant>
+      <version.maven>2.0.6</version.maven>
+      <version.junit>3.8.1</version.junit>
+      <version.log4j>1.2.14</version.log4j>
+      <version.sleepycat>3.0.12</version.sleepycat>
+      <version.jboss-j2ee>4.2.0.GA</version.jboss-j2ee>
+      <version.jboss-common-core>2.2.0.GA</version.jboss-common-core>
+      <version.jboss-jmx>4.2.0.GA</version.jboss-jmx>
+      <version.jboss-system>4.2.0.GA</version.jboss-system>
+   </properties>
+
+
+   <repositories>
+      <repository>
+         <id>repository.jboss.org</id>
+         <name>JBoss Repository</name>
+         <layout>default</layout>
+         <url>http://repository.jboss.org/maven2/</url>
+         <snapshots>
+            <enabled>false</enabled>
+         </snapshots>
+      </repository>
+      <repository>
+         <id>snapshots.jboss.org</id>
+         <name>JBoss Snapshots Repository</name>
+         <layout>default</layout>
+         <url>http://snapshots.jboss.org/maven2/</url>
+         <snapshots>
+            <enabled>true</enabled>
+         </snapshots>
+         <releases>
+            <enabled>false</enabled>
+         </releases>
+      </repository>  
+      <repository>
+      		<id>openqa-releases</id>
+      		<name>OpenQA Selenium Repository</name>
+      		<url>http://archiva.openqa.org/repository/releases/</url>
+      </repository>    
+   </repositories>
+   <pluginRepositories>
+      <pluginRepository>
+         <id>Codehaus Snapshots</id>
+         <url>http://snapshots.repository.codehaus.org/</url>
+         <snapshots>
+            <enabled>true</enabled>
+         </snapshots>
+      </pluginRepository>
+      <pluginRepository>
+         <id>java.net maven repository</id>
+         <url>http://download.java.net/maven/2/</url>
+         <snapshots>
+            <enabled>true</enabled>
+         </snapshots>
+      </pluginRepository>
+   </pluginRepositories>
+
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.3.1</version>
+            <configuration>
+               <skip>true</skip>
+            </configuration>
+         </plugin>
+      </plugins>
+
+      <pluginManagement/>
+
+      
+   </build>
+
+
+
+
+
+
+   <dependencyManagement>
+      <!-- The parent pom manages the inter-dependencies of the modules. -->
+      <dependencies>
+         <dependency>
+            <groupId>org.jboss.unit</groupId>
+            <artifactId>jboss-unit</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.jboss.portal.test</groupId>
+            <artifactId>portal-test</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.jboss.portal.test</groupId>
+            <artifactId>portal-test-jboss</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.jboss.unit</groupId>
+            <artifactId>jboss-unit-tooling</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.jboss.unit</groupId>
+            <artifactId>jboss-unit-tooling-core</artifactId>
+            <version>${project.version}</version>
+         </dependency>
+
+
+
+         <dependency>
+            <groupId>org.jboss.microcontainer</groupId>
+            <artifactId>jboss-kernel</artifactId>
+            <version>${version.jboss.microcontainer}</version>
+         </dependency>
+
+         <dependency>
+            <groupId>apache-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>${version.apache.httpclient}</version>
+         </dependency>
+
+         <dependency>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-core-uberjar</artifactId>
+            <version>${version.cargo}</version>
+         </dependency>
+         <dependency>
+            <groupId>sun-opends</groupId>
+            <artifactId>opends-core</artifactId>
+            <version>${version.sun.opends}</version>
+         </dependency>
+         <dependency>
+            <groupId>hibernate</groupId>
+            <artifactId>hibernate3</artifactId>
+            <version>${version.jboss.hibernate}</version>
+         </dependency>
+         <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>${version.dom4j}</version>
+         </dependency>
+         <dependency>
+            <groupId>jboss.jbossas.core-libs</groupId>
+            <artifactId>jboss-transaction</artifactId>
+            <version>${version.jboss.jbossas.core-libs}</version>
+         </dependency>
+         <dependency>
+            <groupId>jboss.jbossas.core-libs</groupId>
+            <artifactId>jnpserver</artifactId>
+            <version>${version.jboss.jbossas.core-libs}</version>
+         </dependency>
+         <dependency>
+            <groupId>jboss.jbossas.core-libs</groupId>
+            <artifactId>jboss-jca</artifactId>
+            <version>${version.jboss.jbossas.core-libs}</version>
+         </dependency>
+         <dependency>
+            <groupId>jboss.jbossas.core-libs</groupId>
+            <artifactId>jboss-local-jdbc</artifactId>
+            <version>${version.jboss.jbossas.core-libs}</version>
+         </dependency>
+         <dependency>
+            <groupId>jboss.jbossas.core-libs</groupId>
+            <artifactId>jboss</artifactId>
+            <version>${version.jboss.jbossas.core-libs}</version>
+         </dependency>
+
+         <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-remoting</artifactId>
+            <version>${version.jboss.remoting}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant-junit</artifactId>
+            <version>${version.ant}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>${version.ant}</version>
+         </dependency>
+
+         <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-plugin-api</artifactId>
+            <version>${version.maven}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-artifact</artifactId>
+            <version>${version.maven}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-model</artifactId>
+            <version>${version.maven}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-project</artifactId>
+            <version>${version.maven}</version>
+         </dependency>
+         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${version.junit}</version>
+         </dependency>
+         <dependency>
+            <groupId>apache-log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${version.log4j}</version>
+         </dependency>
+         <dependency>
+            <groupId>sleepycat</groupId>
+            <artifactId>je</artifactId>
+            <version>${version.sleepycat}</version>
+         </dependency>
+
+         <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-j2ee</artifactId>
+            <version>${version.jboss-j2ee}</version>
+         </dependency>
+         <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-common-core</artifactId>
+            <version>${version.jboss-common-core}</version>
+         </dependency>
+         <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-jmx</artifactId>
+            <version>${version.jboss-jmx}</version>
+         </dependency>
+         <dependency>
+            <groupId>jboss</groupId>
+            <artifactId>jboss-system</artifactId>
+            <version>${version.jboss-system}</version>
+         </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+
+</project>

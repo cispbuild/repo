@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>jboss</groupId>
+  <artifactId>jboss-ejb3</artifactId>
+  <version>4.3.0.GA_CP03_FP01</version>
+  <versioning>
+    <latest>4.3.0.GA_CP04</latest>
+    <release>4.3.0.GA_CP04</release>
+    <versions>
+      <version>4.3.0.GA_CP03_FP01</version>
+      <version>4.3.0.GA_CP04</version>
+    </versions>
+    <lastUpdated>20120127102058</lastUpdated>
+  </versioning>
+</metadata>

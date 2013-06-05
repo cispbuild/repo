@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.apache.maven.wagon</groupId>
+  <artifactId>wagon</artifactId>
+  <version>1.0-alpha-4</version>
+  <packaging>pom</packaging>
+  <name>Maven Wagon</name>
+  <description>Tools to manage artifacts and deployment</description>
+  <inceptionYear>2003</inceptionYear>
+  <organization>
+    <name>Apache Software Foundation</name>
+    <url>http://www.apache.org/</url>
+  </organization>
+  <distributionManagement>
+    <repository>
+      <id>repo1</id>
+      <url>scp://beaver.codehaus.org/home/projects/maven/repository-staging/to-ibiblio/maven2</url>
+    </repository>
+  </distributionManagement>
+  <scm>
+    <connection>scm:cvs:pserver:anoncvs@cvs.apache.org:/home/cvspublic:maven-wagon</connection>
+    <developerConnection>scm:cvs:ext:${maven.username}@cvs.apache.org:/home/cvs:maven-wagon</developerConnection>
+    <url>http://cvs.apache.org/viewcvs.cgi/maven-wagon</url>
+  </scm>
+  <ciManagement>
+    <system>wagon-dev@maven.apache.org</system>
+    <notifiers>
+      <notifier>
+        <type>mail</type>
+        <address>wagon-dev@maven.apache.org</address>
+      </notifier>
+    </notifiers>
+  </ciManagement>
+  <mailingLists>
+    <mailingList>
+      <name>Maven Wagon User List</name>
+      <subscribe>wagon-users-subscribe@maven.apache.org</subscribe>
+      <unsubscribe>wagon-users-unsubscribe@maven.apache.org</unsubscribe>
+      <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=wagon-users@maven.apache.org</archive>
+    </mailingList>
+    <mailingList>
+      <name>Maven Wagon Developer List</name>
+      <subscribe>wagon-dev-subscribe@maven.apache.org</subscribe>
+      <unsubscribe>wagon-dev-unsubscribe@maven.apache.org</unsubscribe>
+      <archive>http://nagoya.apache.org/eyebrowse/SummarizeList?listName=wagon-dev@maven.apache.org</archive>
+    </mailingList>
+  </mailingLists>
+  <developers>
+    <developer>
+      <name>Michal Maczka</name>
+      <id>michal</id>
+      <email>michal@codehaus.com</email>
+      <organization>Codehaus</organization>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Brett Porter</name>
+      <id>brett</id>
+      <email>brett@apache.org</email>
+      <timezone>+10</timezone>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Jason van Zyl</name>
+      <id>jvanzyl</id>
+      <email>jason@maven.org</email>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+  </developers>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <modules>
+    <module>wagon-provider-api</module>
+    <module>wagon-provider-test</module>
+    <module>wagon-providers</module>
+  </modules>
+</project>

@@ -1,0 +1,14 @@
+<metadata>
+  <groupId>org.hibernate</groupId>
+  <artifactId>hibernate-annotations</artifactId>
+  <version>3.1beta5</version>
+  <versioning>
+    <versions>
+      <version>3.1beta5</version>
+      <version>3.1beta7</version>
+      <version>3.1beta6</version>
+      <version>3.1beta8</version>
+      <version>3.1beta9</version>
+    </versions>
+  </versioning>
+</metadata>

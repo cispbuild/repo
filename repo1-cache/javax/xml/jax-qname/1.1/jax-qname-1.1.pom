@@ -1,0 +1,14 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>javax.xml</groupId>
+  <artifactId>jax-qname</artifactId>
+  <version>1.1</version>
+  <name>Java API for XML-Based RPC (JAX-RPC)</name>
+  <description>
+    The Java API for XML based RPC (JAX-RPC) enables Java technology developers to build Web applications and Web services incorporating XML based RPC functionality according to the SOAP (Simple Object Access Protocol) 1.1 specification.
+  </description>
+  <url>http://java.sun.com/webservices/jaxrpc/index.jsp</url>
+  <distributionManagement>
+    <downloadUrl>http://java.sun.com/xml/downloads/jaxrpc.html</downloadUrl>
+  </distributionManagement>
+</project>

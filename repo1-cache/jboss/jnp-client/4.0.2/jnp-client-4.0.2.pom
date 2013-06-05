@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>jboss</groupId>
+  <artifactId>jnp-client</artifactId>
+  <packaging>jar</packaging>
+  <name>JBossNS Client</name>
+  <version>4.0.2</version>
+  <description>JBossNS is the JBoss implementation of the of the Java Naming and Directory Interface (JNDI).</description>
+  <url>http://www.jboss.com/</url>
+  <licenses>
+    <license>
+      <name>GNU Lesser General Public License</name>
+      <url>http://www.gnu.org/licenses/lgpl.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <url>http://anoncvs.forge.jboss.com/viewrep/JBoss/jnp</url>
+  </scm>
+</project>

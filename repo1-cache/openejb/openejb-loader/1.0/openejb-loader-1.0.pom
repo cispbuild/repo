@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>openejb</groupId>
+  <artifactId>openejb-loader</artifactId>
+  <name>OpenEJB :: Loader</name>
+  <version>1.0</version>
+  <description>OpenEJB Loader</description>
+  <url>http://www.openejb.org</url>
+  <issueManagement>
+    <url>http://jira.codehaus.org/secure/BrowseProject.jspa?id=10401</url>
+  </issueManagement>
+  <ciManagement>
+    <notifiers>
+      <notifier>
+        <configuration>
+          <address>dev@openejb.org</address>
+        </configuration>
+      </notifier>
+    </notifiers>
+  </ciManagement>
+  <inceptionYear>1999</inceptionYear>
+  <mailingLists>
+    <mailingList>
+      <name>OpenEJB Announce List</name>
+      <subscribe>announce-subscribe@openejb.org</subscribe>
+      <unsubscribe>announce-unsubscribe@openejb.org</unsubscribe>
+      <archive>http://archive.openejb.codehaus.org/announce/</archive>
+    </mailingList>
+    <mailingList>
+      <name>OpenEJB Developer List</name>
+      <subscribe>dev-subscribe@openejb.org</subscribe>
+      <unsubscribe>dev-unsubscribe@openejb.org</unsubscribe>
+      <archive>http://archive.openejb.codehaus.org/dev/</archive>
+    </mailingList>
+    <mailingList>
+      <name>OpenEJB SCM List</name>
+      <subscribe>scm-subscribe@openejb.org</subscribe>
+      <unsubscribe>scm-unsubscribe@openejb.org</unsubscribe>
+      <archive>http://archive.openejb.codehaus.org/scm/</archive>
+    </mailingList>
+    <mailingList>
+      <name>OpenEJB User List</name>
+      <subscribe>user-subscribe@openejb.org</subscribe>
+      <unsubscribe>user-unsubscribe@openejb.org</unsubscribe>
+      <archive>http://archive.openejb.codehaus.org/user/</archive>
+    </mailingList>
+  </mailingLists>
+  <developers>
+    <developer>
+      <id>dain</id>
+      <name>Dain Sundstrom</name>
+      <email>dain@apache.org</email>
+      <organization></organization>
+    </developer>
+    <developer>
+      <id>dblevins</id>
+      <name>David Blevins</name>
+      <email>dblevins@apache.org</email>
+      <organization></organization>
+    </developer>
+    <developer>
+      <id>djencks</id>
+      <name>David Jencks</name>
+      <email>djencks@apache.org</email>
+      <organization></organization>
+    </developer>
+    <developer>
+      <id>jboynes</id>
+      <name>Jeremy Boynes</name>
+      <email>jboynes@apache.org</email>
+      <organization></organization>
+    </developer>
+    <developer>
+      <id>rmonson</id>
+      <name>Richard Monson-Haefel</name>
+      <email>rmonson@apache.org</email>
+      <organization></organization>
+    </developer>
+    <developer>
+      <id>chirino</id>
+      <name>Remigio Chirino</name>
+      <email>chirino@apache.org</email>
+      <organization></organization>
+    </developer>
+    <developer>
+      <id>ammulder</id>
+      <name>Aaron Mulder</name>
+      <email>ammulder@apache.org</email>
+      <organization></organization>
+    </developer>
+    <developer>
+      <id>adc</id>
+      <name>Alan D. Cabrera</name>
+      <email>adc@apache.org</email>
+      <organization></organization>
+    </developer>
+    <developer>
+      <id>jlaskowski</id>
+      <name>Jacek Laskowski</name>
+      <email>jlaskowski@codehaus.org</email>
+      <organization></organization>
+    </developer>
+    <developer>
+      <id>jcscoobyrs</id>
+      <name>Jeremy Whitlock</name>
+      <email>jcscoobyrs@codehaus.org</email>
+      <organization></organization>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:cvs:pserver:anon@cvs.openejb.codehaus.org:/scm/openejb:openejb1</connection>
+    <developerConnection>scm:cvs:ext:@cvs.openejb.codehaus.org/scm/openejb:openejb1</developerConnection>
+    <url>http://cvs.openejb.org/openejb1/</url>
+  </scm>
+  <organization>
+    <name>OpenEJB</name>
+    <url>http://www.openejb.org/</url>
+  </organization>
+  <build>
+    <sourceDirectory>/home/continuum/continuum-1.0.2/apps/continuum/work/7/modules/loader/src/java</sourceDirectory>
+    <testSourceDirectory>/home/continuum/continuum-1.0.2/apps/continuum/work/7/modules/loader/src/test</testSourceDirectory>
+    <resources>
+      <resource>
+        <directory>/home/continuum/continuum-1.0.2/apps/continuum/work/7/modules/loader/src</directory>
+        <includes>
+          <include>htdocs/**</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>/home/continuum/continuum-1.0.2/apps/continuum/work/7/modules/loader/src/etc</directory>
+        <includes>
+          <include>*.properties</include>
+        </includes>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <includes>
+            <include>**/*Test.java</include>
+          </includes>
+          <excludes>
+            <exclude>**/Abstract*.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>openejb</groupId>
+      <artifactId>openejb-core</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jta_1.0.1B_spec</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-ejb_2.1_spec</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-j2ee-connector_1.5_spec</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-servlet_2.4_spec</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.8</version>
+    </dependency>
+  </dependencies>
+  <distributionManagement>
+    <repository>
+      <id>default</id>
+      <name>Default Repository</name>
+      <url>file:///www/openejb.org//builds/core</url>
+    </repository>
+    <site>
+      <id>default</id>
+      <name>Default Site</name>
+      <url>scp://openejb.org//www/openejb.org/core</url>
+    </site>
+    <status>converted</status>
+  </distributionManagement>
+</project>

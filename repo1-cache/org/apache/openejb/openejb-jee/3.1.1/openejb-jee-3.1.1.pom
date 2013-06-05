@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<!-- $Rev: 780183 $ $Date: 2009-05-29 22:57:57 -0700 (Fri, 29 May 2009) $ -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <artifactId>container</artifactId>
+    <groupId>org.apache.openejb</groupId>
+    <version>3.1.1</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>openejb-jee</artifactId>
+  <packaging>jar</packaging>
+  <name>OpenEJB :: Container :: Java EE</name>
+  <build>
+    <plugins>
+<!--
+      <plugin>
+        <groupId>com.envoisolutions.sxc</groupId>
+        <artifactId>sxc-jaxb-maven-plugin</artifactId>
+        <version>0.7.2</version>
+        <executions>
+          <execution>
+              <configuration>
+                <classes>
+                  <class>org.apache.openejb.jee</class>
+                  <class>org.apache.openejb.jee.jba</class>
+                  <class>org.apache.openejb.jee.jba.cmp</class>
+                  <class>org.apache.openejb.jee.jpa</class>
+                  <class>org.apache.openejb.jee.oejb2</class>
+                  <class>org.apache.openejb.jee.oejb3</class>
+                  <class>org.apache.openejb.jee.sun</class>
+                  <class>org.apache.openejb.jee.wls</class>
+                </classes>
+              </configuration>
+              <goals>
+                <goal>generate</goal>
+              </goals>
+          </execution>
+        </executions>
+      </plugin>
+-->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>rat-maven-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>src/main/resources/META-INF/schema/xml.xsd</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+<!--
+    <dependency>
+      <groupId>com.envoisolutions.sxc</groupId>
+      <artifactId>sxc-jaxb</artifactId>
+      <version>0.7.2</version>
+      <exclusions>
+        <exclusion>
+          <groupId>stax</groupId>
+          <artifactId>stax-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+-->
+    <dependency>
+      <groupId>org.codehaus.woodstox</groupId>
+      <artifactId>wstx-asl</artifactId>
+      <version>3.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.openejb</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>5.0-2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>xmlunit</groupId>
+      <artifactId>xmlunit</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <profiles>
+    <profile>
+      <id>openejb.debug</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <forkMode>pertest</forkMode>
+              <argLine>-enableassertions -agentlib:jdwp=transport=dt_socket,server=y,address=5005</argLine>
+              <workingDirectory>${basedir}/target</workingDirectory>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
+

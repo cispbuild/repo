@@ -1,0 +1,31 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.hibernate</groupId>
+  <artifactId>hibernate-annotations</artifactId>
+  <version>3.1beta9</version>
+  <packaging>jar</packaging>
+  <name>Hibernate Annotations</name>
+  <url>http://annotations.hibernate.org</url>
+  <description>EJB3-style annotations for Hibernate</description>
+  <scm>
+    <url>http://opensource2.atlassian.com/projects/hibernate/browse/ANN</url>
+  </scm>
+  <dependencies>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate</artifactId>
+      <version>3.2.0.cr1</version>
+    </dependency>
+    <dependency>
+      <groupId>lucene</groupId>
+      <artifactId>lucene</artifactId>
+      <version>1.4.3</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>javax.persistence</groupId>
+      <artifactId>ejb</artifactId>
+      <version>3.0-public-draft-20060327</version>
+    </dependency>
+  </dependencies>
+</project>
